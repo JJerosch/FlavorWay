@@ -247,9 +247,9 @@ function renderRegioes() {
                 </div>
                 <div class="regiao-tags">
                     ${regiao.destaque
-                      .slice(0, 3)
-                      .map((prato) => `<span class="regiao-tag">${prato}</span>`)
-                      .join("")}
+          .slice(0, 3)
+          .map((prato) => `<span class="regiao-tag">${prato}</span>`)
+          .join("")}
                 </div>
             </div>
         </div>

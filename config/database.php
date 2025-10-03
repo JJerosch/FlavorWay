@@ -1,16 +1,14 @@
 <?php
-$servidor = "localhost";     // geralmente localhost
-$usuario  = "root";          // usuário do MySQL
-$senha    = "";              // senha (no XAMPP geralmente é vazia)
-$banco    = "flavor_way"; // troque pelo nome do seu banco
- 
-// Criando conexão
-$conn = mysqli_connect($servidor, $usuario, $senha, $banco);
- 
-// Verificando a conexão
-if (!$conn) {
-    die("Erro na conexão: " . mysqli_connect_error());
+$host = "localhost";
+$dbname = "flavor_way";
+$username = "root";
+$password = "";
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+    die("Erro na conexão: " . $e->getMessage());
 }
- 
-echo "Conectado com sucesso!";
 ?>

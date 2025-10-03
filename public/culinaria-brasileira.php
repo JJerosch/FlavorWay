@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Culinária Brasileira - FlavorWay</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/home-styles.css">
-    <link rel="stylesheet" href="../assets/css/culinariabrasileira.css">
+    <link rel="stylesheet" href="../assets/css/public.css/home-styles.css">
+    <link rel="stylesheet" href="../assets/css/public.css/culinariabrasileira.css">
 </head>
 <body class="culinaria-page">
     <header class="header brasil-header" id="header">
@@ -296,6 +296,6 @@
         </div>
     </footer>
 
-    <script src="../assets/js/culinaria-brasileira.js"></script>
+    <script src="../assets/js/public.js/culinaria-brasileira.js"></script>
 </body>
 </html>

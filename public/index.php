@@ -1,3 +1,13 @@
+<?php
+session_start();
+require_once '../auth/check_session.php';
+
+// Se não estiver logado, redireciona para login
+if (!isLoggedIn()) {
+    header('Location: login.php');
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,12 +15,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlavorWay - Explore a Culinária Mundial</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/homestyles.css">
+    <link rel="stylesheet" href="../assets/css/public.jcss/homestyles.css">
 </head>
 <body> 
     <header class="header" id="header">
         <div class="container">
             <div class="header-content">
+                <div class="header-actions">
+                    <span style="color: white; margin-right: 15px;">
+                        Olá, <?php echo getUserName(); ?>!
+                    </span>
+                    <a href="../auth/logout.php" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
+                    <button class="search-btn" onclick="toggleSearch()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="menu-toggle" onclick="toggleMenu()">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
                 <div class="logo">
                     <i class="fas fa-utensils"></i>
                     <div>
@@ -101,8 +125,6 @@
             <i class="fas fa-chevron-down"></i>
         </div>
     </section>
-
-     Culinárias do Mundo 
     <section id="culinarias" class="culinarias">
         <div class="container">
             <div class="section-header">
@@ -282,6 +304,6 @@
         </div>
     </footer>
 
-    <script src="../assets/js/home-main.js"></script>
+    <script src="../assets/js/public.js/home-main.js"></script>
 </body>
 </html>
