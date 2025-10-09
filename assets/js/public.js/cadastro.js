@@ -71,7 +71,7 @@ document.getElementById('cadastroForm').addEventListener('submit', async functio
     const formData = new FormData(this);
 
     try {
-        const response = await fetch('auth/register.php', {
+       const response = await fetch('../auth/register.php', {
             method: 'POST',
             body: formData
         });
@@ -88,9 +88,15 @@ document.getElementById('cadastroForm').addEventListener('submit', async functio
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
         }
-    } catch (error) {
-        showAlert('Erro ao conectar com o servidor. Tente novamente.', 'error');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
-    }
+    // ...
+} catch (networkError) {
+    // A LINHA MAIS IMPORTANTE PARA O DEBUG:
+    console.error('ERRO CAPTURADO PELO CATCH:', networkError);
+
+    showAlert('Erro de rede ou conexão. Verifique o console (F12) para detalhes.', 'error');
+
+    // Reativa o botão para o usuário poder tentar de novo
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
+}
 });

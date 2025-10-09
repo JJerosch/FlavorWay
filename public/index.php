@@ -2,11 +2,11 @@
 session_start();
 require_once '../auth/check_session.php';
 
-// // Se não estiver logado, redireciona para login
-// if (!isLoggedIn()) {
-//     header('Location: login.php');
-//     exit;
-// }
+// Se não estiver logado, redireciona para login
+if (!isLoggedIn()) {
+    header('Location: login.php');
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
