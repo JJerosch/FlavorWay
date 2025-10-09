@@ -2,11 +2,11 @@
 session_start();
 require_once '../auth/check_session.php';
 
-// Se não estiver logado, redireciona para login
-if (!isLoggedIn()) {
-    header('Location: login.php');
-    exit;
-}
+// // Se não estiver logado, redireciona para login
+// if (!isLoggedIn()) {
+//     header('Location: login.php');
+//     exit;
+// }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -15,7 +15,7 @@ if (!isLoggedIn()) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlavorWay - Explore a Culinária Mundial</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/public.jcss/homestyles.css">
+    <link rel="stylesheet" href="../assets/css/public.css/homestyles.css">
 </head>
 <body> 
     <header class="header" id="header">
@@ -132,7 +132,6 @@ if (!isLoggedIn()) {
                 <h2>Culinárias <span class="highlight">do Mundo</span></h2>
                 <p>Viaje pelos sabores mais autênticos de cada região do planeta</p>
             </div>
-            
             <div class="culinarias-grid" id="culinariasGrid">
                  Carregado via JavaScript 
             </div>

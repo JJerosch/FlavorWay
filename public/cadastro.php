@@ -123,6 +123,6 @@
             </div>
         </div>
     </div>
-    <script src= "../assets/public.js/cadastro.js"></script>
+    <script src= "../assets/js/public.js/cadastro.js"></script>
 </body>
 </html>

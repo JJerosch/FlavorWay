@@ -12,6 +12,9 @@
     --gray: #6b7280;
     --light: #f9fafb;
     --white: #ffffff;
+    --gradient: linear-gradient(135deg, #ea580c 0%, #eab308 100%);
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 body {
@@ -19,7 +22,6 @@ body {
     color: var(--dark);
     line-height: 1.6;
     overflow-x: hidden;
-    background: linear-gradient(180deg, #fff7ed 0%, white 50%, #fff7ed 100%);
 }
 
 .container {
@@ -168,9 +170,17 @@ body {
 .hero-bg-brasil {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #16a34a 0%, #eab308 50%, #dc2626 100%);
+    background: var(--gradient);
     opacity: 0.95;
     z-index: 1;
+}
+
+.hero-bg-brasil::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
 }
 
 .hero-brasil .container {
@@ -191,16 +201,12 @@ body {
 }
 
 @keyframes wave {
-
-    0%,
-    100% {
+    0%, 100% {
         transform: rotate(0deg);
     }
-
     25% {
         transform: rotate(-10deg);
     }
-
     75% {
         transform: rotate(10deg);
     }
@@ -315,19 +321,12 @@ body {
 }
 
 @keyframes bounce {
-
-    0%,
-    20%,
-    50%,
-    80%,
-    100% {
+    0%, 20%, 50%, 80%, 100% {
         transform: translateX(-50%) translateY(0);
     }
-
     40% {
         transform: translateX(-50%) translateY(-10px);
     }
-
     60% {
         transform: translateX(-50%) translateY(-5px);
     }
@@ -345,8 +344,8 @@ section {
 
 .section-tag {
     display: inline-block;
-    background: linear-gradient(135deg, #16a34a20, #eab30820);
-    color: #16a34a;
+    background: linear-gradient(135deg, #ea580c20, #eab30820);
+    color: var(--primary);
     padding: 8px 20px;
     border-radius: 20px;
     font-weight: 600;
@@ -361,10 +360,7 @@ section {
 }
 
 .highlight-brasil {
-    background: linear-gradient(135deg, #16a34a, #eab308, #dc2626);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary);
 }
 
 .section-header p {
@@ -379,127 +375,155 @@ section {
     background: white;
 }
 
+/* Cards Minimalistas das Regiões */
 .regioes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
 }
 
 .regiao-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     cursor: pointer;
-    border: 3px solid transparent;
+    position: relative;
+    border: 1px solid #f0f0f0;
 }
 
 .regiao-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
-.regiao-card.nordeste {
-    border-color: #ea580c;
+/* Cores por região */
+.regiao-card.nordeste .regiao-header {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
 }
 
-.regiao-card.sudeste {
-    border-color: #dc2626;
+.regiao-card.sudeste .regiao-header {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
-.regiao-card.sul {
-    border-color: #16a34a;
+.regiao-card.sul .regiao-header {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
 }
 
-.regiao-card.norte {
-    border-color: #059669;
+.regiao-card.norte .regiao-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
 
-.regiao-card.centro-oeste {
-    border-color: #7c2d12;
+.regiao-card.centro-oeste .regiao-header {
+    background: linear-gradient(135deg, #92400e 0%, #78350f 100%);
 }
 
+/* Header do card */
 .regiao-header {
-    height: 180px;
-    position: relative;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    position: relative;
 }
 
 .regiao-icon {
-    font-size: 3.5rem;
-    position: relative;
-    z-index: 10;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-size: 3rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
+/* Body do card */
 .regiao-body {
-    padding: 25px;
+    padding: 24px;
 }
 
-.regiao-title {
+.regiao-title-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .regiao-body h3 {
     font-size: 1.5rem;
-    color: var(--dark);
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
 }
 
 .regiao-emoji {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 
-.regiao-body p {
-    color: var(--gray);
-    line-height: 1.6;
+.regiao-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.5;
     margin-bottom: 20px;
 }
 
+/* Stats minimalistas */
 .regiao-stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    padding: 15px 0;
-    border-top: 1px solid var(--light);
-    border-bottom: 1px solid var(--light);
-    margin-bottom: 20px;
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-top: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f3f4f6;
+    margin-bottom: 16px;
 }
 
 .regiao-stat {
+    flex: 1;
     text-align: center;
 }
 
 .regiao-stat-number {
+    display: block;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary);
+    color: #ea580c;
+    margin-bottom: 4px;
 }
 
 .regiao-stat-label {
+    display: block;
     font-size: 0.75rem;
-    color: var(--gray);
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
+/* Tags minimalistas */
 .regiao-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: 8px;
 }
 
 .regiao-tag {
-    background: rgba(234, 88, 12, 0.1);
-    color: var(--primary);
-    padding: 4px 10px;
-    border-radius: 12px;
+    background: #fef3c7;
+    color: #92400e;
+    padding: 4px 12px;
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .regioes-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .regiao-stats {
+        gap: 12px;
+    }
+    
+    .regiao-stat-number {
+        font-size: 1.25rem;
+    }
 }
 
 /* Filtros e Receitas */
@@ -543,13 +567,13 @@ section {
     background: white;
     border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     transition: all 0.3s ease;
 }
 
 .receita-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
 }
 
 .receita-image {
@@ -563,7 +587,7 @@ section {
     position: absolute;
     top: 12px;
     left: 12px;
-    background: linear-gradient(135deg, #ea580c, #eab308);
+    background: var(--gradient);
     color: white;
     padding: 6px 12px;
     border-radius: 20px;
@@ -667,7 +691,7 @@ section {
     background: white;
     border-radius: 15px;
     padding: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     text-align: center;
     transition: all 0.3s ease;
     border: 2px solid transparent;
@@ -675,7 +699,7 @@ section {
 
 .ingrediente-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
     border-color: var(--primary);
 }
 
@@ -717,14 +741,14 @@ section {
     background: white;
     padding: 35px;
     border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     text-align: center;
     transition: all 0.3s ease;
 }
 
 .cultura-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
 }
 
 .cultura-icon {
@@ -745,7 +769,7 @@ section {
 
 /* CTA */
 .cta-brasil {
-    background: linear-gradient(135deg, #16a34a 0%, #eab308 50%, #dc2626 100%);
+    background: var(--gradient);
     color: white;
     text-align: center;
     padding: 80px 0;
@@ -771,7 +795,7 @@ section {
 
 /* Footer */
 .footer-brasil {
-    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+    background: linear-gradient(135deg, var(--dark) 0%, #374151 100%);
     color: white;
     padding: 60px 0 30px;
 }

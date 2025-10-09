@@ -8,7 +8,7 @@ const culinarias = [
     receitas: 500,
     estados: 27,
     image: "/placeholder.svg?height=200&width=400&text=Culinária+Brasileira",
-    link: "culinaria-brasileira.html",
+    link: "culinaria-brasileira.php",
   },
   {
     id: "italiana",
