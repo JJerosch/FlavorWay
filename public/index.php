@@ -22,7 +22,7 @@ if (!isLoggedIn()) {
         <div class="container">
             <div class="header-content">
                 <div class="header-actions">
-                    <span style="color: white; margin-right: 15px;">
+                    <span style="color: black; margin-right: 15px;">
                         Olá, <?php echo getUserName(); ?>!
                     </span>
                     <a href="../auth/logout.php" class="btn-logout">

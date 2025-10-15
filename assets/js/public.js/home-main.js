@@ -7,7 +7,7 @@ const culinarias = [
     flag: "🇧🇷",
     receitas: 500,
     estados: 27,
-    image: "/placeholder.svg?height=200&width=400&text=Culinária+Brasileira",
+    image: "../assets/images/culinariabrasileira.jpg",
     link: "culinaria-brasileira.php",
   },
   {
@@ -17,7 +17,7 @@ const culinarias = [
     flag: "🇮🇹",
     receitas: 350,
     regioes: 20,
-    image: "/placeholder.svg?height=200&width=400&text=Culinária+Italiana",
+    image: "../assets/images/culinariaitaliana.jpg",
     link: "#",
   },
   {
@@ -27,7 +27,7 @@ const culinarias = [
     flag: "🇯🇵",
     receitas: 280,
     pratos: 150,
-    image: "/placeholder.svg?height=200&width=400&text=Culinária+Japonesa",
+    image: "../assets/images/culinariajaponesa.jpg",
     link: "#",
   },
   {
@@ -37,7 +37,7 @@ const culinarias = [
     flag: "🇫🇷",
     receitas: 400,
     tecnicas: 200,
-    image: "/placeholder.svg?height=200&width=400&text=Culinária+Francesa",
+    image: "../assets/images/culinariafrancesa.jpg",
     link: "#",
   },
   {
@@ -47,7 +47,7 @@ const culinarias = [
     flag: "🇲🇽",
     receitas: 320,
     ingredientes: 180,
-    image: "/placeholder.svg?height=200&width=400&text=Culinária+Mexicana",
+    image: "../assets/images/culinariamexicana.jpg",
     link: "#",
   },
   {
@@ -57,7 +57,7 @@ const culinarias = [
     flag: "🇹🇭",
     receitas: 250,
     pratos: 120,
-    image: "/placeholder.svg?height=200&width=400&text=Culinária+Tailandesa",
+    image: "../assets/images/culinariatailandesa.jpg",
     link: "#",
   },
 ]
@@ -138,7 +138,6 @@ function renderCulinarias() {
       (culinaria) => `
         <a href="${culinaria.link}" class="culinaria-card">
             <div class="culinaria-image" style="background-image: url('${culinaria.image}')">
-                <div class="culinaria-flag">${culinaria.flag}</div>
             </div>
             <div class="culinaria-body">
                 <h3>${culinaria.nome}</h3>

@@ -3,60 +3,55 @@ const regioesBrasil = [
   {
     id: "nordeste",
     nome: "Nordeste",
-    emoji: "🌶️",
     descricao: "Sabores intensos e temperos marcantes da culinária afro-brasileira",
     estados: 9,
     receitas: 150,
     ingredientes: 45,
-    cor: "#ea580c",
+    image: "../assets/images/culinarianordestina.jpg",
     destaque: ["Acarajé", "Moqueca", "Tapioca", "Baião de Dois"],
     link: "regiao.php?regiao=nordeste",
   },
   {
     id: "sudeste",
     nome: "Sudeste",
-    emoji: "🏙️",
     descricao: "Tradição e modernidade em harmonia com influências de diversas culturas",
     estados: 4,
     receitas: 180,
     ingredientes: 38,
-    cor: "#dc2626",
+    image: "../assets/images/culinariasudeste.jpg",
     destaque: ["Feijoada", "Pão de Queijo", "Virado à Paulista", "Moqueca Capixaba"],
     link: "regiao.php?regiao=sudeste",
   },
   {
     id: "sul",
     nome: "Sul",
-    emoji: "🥩",
     descricao: "Tradições europeias e sabores gaúchos em perfeita harmonia",
     estados: 3,
     receitas: 120,
     ingredientes: 32,
-    cor: "#16a34a",
+    image: "../assets/images/culinariasul.jpg",
     destaque: ["Churrasco", "Barreado", "Cuca Alemã", "Entrevero"],
     link: "regiao.php?regiao=sul",
   },
   {
     id: "norte",
     nome: "Norte",
-    emoji: "🌿",
     descricao: "Sabores exóticos da Amazônia com ingredientes únicos",
     estados: 7,
     receitas: 90,
     ingredientes: 52,
-    cor: "#059669",
+    image: "../assets/images/culinarianorte.jpg",
     destaque: ["Tacacá", "Pato no Tucupi", "Açaí", "Pirarucu"],
     link: "regiao.php?regiao=norte",
   },
   {
     id: "centro-oeste",
     nome: "Centro-Oeste",
-    emoji: "🐟",
     descricao: "Sabores do pantanal e cerrado com peixes de água doce",
     estados: 4,
     receitas: 70,
     ingredientes: 28,
-    cor: "#7c2d12",
+    image: "../assets/images/culinariacentrooeste.jpg",
     destaque: ["Pacu Assado", "Pequi com Frango", "Farofa de Banana", "Mojica"],
     link: "regiao.php?regiao=centro-oeste",
   },
@@ -72,7 +67,7 @@ const receitasBrasil = [
     tempo: "3h 30min",
     dificuldade: "Intermediário",
     rating: 4.9,
-    image: "/placeholder.svg?height=200&width=300&text=Feijoada",
+    image: "../assets/images/feijoada.jpg",
   },
   {
     id: 2,
@@ -82,7 +77,7 @@ const receitasBrasil = [
     tempo: "2h",
     dificuldade: "Intermediário",
     rating: 4.8,
-    image: "/placeholder.svg?height=200&width=300&text=Acarajé",
+    image: "../assets/images/acaraje1.jpg",
   },
   {
     id: 3,
@@ -92,7 +87,7 @@ const receitasBrasil = [
     tempo: "2h",
     dificuldade: "Intermediário",
     rating: 4.9,
-    image: "/placeholder.svg?height=200&width=300&text=Churrasco",
+    image: "../assets/images/churrascogaucho.jpg",
   },
   {
     id: 4,
@@ -102,7 +97,7 @@ const receitasBrasil = [
     tempo: "1h",
     dificuldade: "Básico",
     rating: 4.6,
-    image: "/placeholder.svg?height=200&width=300&text=Tacacá",
+    image: "../assets/images/tacaca.jpg",
   },
   {
     id: 5,
@@ -112,7 +107,7 @@ const receitasBrasil = [
     tempo: "1h 30min",
     dificuldade: "Intermediário",
     rating: 4.5,
-    image: "/placeholder.svg?height=200&width=300&text=Pequi",
+    image: "../assets/images/pequi.jpg",
   },
   {
     id: 6,
@@ -122,7 +117,7 @@ const receitasBrasil = [
     tempo: "45min",
     dificuldade: "Básico",
     rating: 4.8,
-    image: "/placeholder.svg?height=200&width=300&text=Pão+de+Queijo",
+    image: "../assets/images/paodequeijo.jpg",
   },
   {
     id: 7,
@@ -132,7 +127,7 @@ const receitasBrasil = [
     tempo: "1h 30min",
     dificuldade: "Intermediário",
     rating: 4.6,
-    image: "/placeholder.svg?height=200&width=300&text=Baião+de+Dois",
+    image: "../assets/images/baiaode2.jpg",
   },
   {
     id: 8,
@@ -142,7 +137,7 @@ const receitasBrasil = [
     tempo: "6h",
     dificuldade: "Avançado",
     rating: 4.7,
-    image: "/placeholder.svg?height=200&width=300&text=Barreado",
+    image: "../assets/images/barreado.jpg",
   },
   {
     id: 9,
@@ -152,7 +147,7 @@ const receitasBrasil = [
     tempo: "2h 30min",
     dificuldade: "Avançado",
     rating: 4.7,
-    image: "/placeholder.svg?height=200&width=300&text=Pato+no+Tucupi",
+    image: "../assets/images/patonotucupi.jpg",
   },
 ]
 
@@ -222,13 +217,11 @@ function renderRegioes() {
     .map(
       (regiao) => `
         <div class="regiao-card ${regiao.id}" onclick="window.location.href='${regiao.link}'">
-            <div class="regiao-header" style="background: linear-gradient(135deg, ${regiao.cor}dd, ${regiao.cor});">
-                <div class="regiao-icon">${regiao.emoji}</div>
+            <div class="regiao-header" style="background-image: url('${regiao.image}');">
             </div>
             <div class="regiao-body">
                 <div class="regiao-title">
                     <h3>${regiao.nome}</h3>
-                    <div class="regiao-emoji">${regiao.emoji}</div>
                 </div>
                 <p>${regiao.descricao}</p>
                 <div class="regiao-stats">
