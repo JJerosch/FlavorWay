@@ -55,4 +55,13 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar';
     }
+
+
+
+
+
 });
+
+
+
+

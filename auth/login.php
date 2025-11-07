@@ -16,8 +16,11 @@ if (empty($emailOrUsername) || empty($password)) {
     echo json_encode(['success' => false, 'message' => 'Preencha todos os campos']);
     exit;
 }
+                  
+
 
 try {
+ 
     // Verificar se é admin
     $stmt = $pdo->prepare("
         SELECT u.*, a.nivel 
@@ -43,7 +46,7 @@ try {
         echo json_encode([
             'success' => true, 
             'message' => 'Login realizado com sucesso!',
-            'redirect' => '../admin/dashboard.php'
+            'redirect' => '../admin/gerenciar-usuarios.php'
         ]);
         exit;
     }
@@ -77,6 +80,8 @@ try {
         ]);
         exit;
     }
+
+    
 
     echo json_encode(['success' => false, 'message' => 'Credenciais inválidas']);
 

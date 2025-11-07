@@ -48,6 +48,8 @@
                             placeholder="••••••••"
                             required
                         >
+                   
+
                         <button type="button" class="password-toggle" onclick="togglePassword('password')">
                             <i class="fas fa-eye" id="password-icon"></i>
                         </button>
@@ -58,6 +60,7 @@
                     <i class="fas fa-sign-in-alt"></i>
                     Entrar
                 </button>
+
             </form>
 
             <div class="auth-footer">
@@ -70,4 +73,11 @@
         
     </script>
 </body>
+
+
+
+
+
+
 </html>
+
