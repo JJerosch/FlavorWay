@@ -69,9 +69,10 @@
         </div>
     </div>
 
+    <!-- Funções compartilhadas -->
+    <script src="../assets/js/public.js/utils.js"></script>
+    <!-- Script específico da página -->
     <script src="../assets/js/public.js/login.js"></script>
-        
-    </script>
 </body>
 
 

@@ -1,26 +1,36 @@
 <?php
-// Configurações do banco de dados
+/**
+ * FlavorWay - Database Configuration
+ *
+ * Establishes PDO connection with MySQL
+ * - Automatically creates database if it doesn't exist
+ * - Configures UTF-8 charset for full character support
+ * - Enables error mode with exceptions
+ */
+
+// Database credentials
 $host = "localhost";
 $dbname = "flavor_way";
 $username = "root";
 $password = "";
 
 try {
-    // Tenta conexão sem especificar o banco primeiro
+    // Connect to MySQL without specifying database (to be able to create if needed)
     $pdo = new PDO("mysql:host=$host;charset=utf8mb4", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    // Cria o banco se não existir
+
+    // Create database if it doesn't exist
     $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbname` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
-    
-    // Agora conecta ao banco específico
+
+    // Select database for use
     $pdo->exec("USE `$dbname`");
-    
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    
+
+    // Security and performance settings
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); // Returns associative arrays
+    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);              // Uses native prepared statements
+
 } catch(PDOException $e) {
-    // Mostra erro detalhado para debug
-    die("Erro na conexão: SQLSTATE[" . $e->getCode() . "] - " . $e->getMessage());
+    // In production, log error and show generic message
+    // For now, shows detailed error for debugging
+    die("Connection error: SQLSTATE[" . $e->getCode() . "] - " . $e->getMessage());
 }
-?>
