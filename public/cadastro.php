@@ -123,6 +123,9 @@
             </div>
         </div>
     </div>
-    <script src= "../assets/js/public.js/cadastro.js"></script>
+    <!-- Funções compartilhadas -->
+    <script src="../assets/js/public.js/utils.js"></script>
+    <!-- Script específico da página -->
+    <script src="../assets/js/public.js/cadastro.js"></script>
 </body>
 </html>

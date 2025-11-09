@@ -1,24 +1,36 @@
 <?php
-// includes/auth/logout.php
+/**
+ * FlavorWay - Logout
+ *
+ * Destrói completamente a sessão do usuário:
+ * 1. Limpa todas as variáveis de sessão
+ * 2. Destrói a sessão no servidor
+ * 3. Remove o cookie de sessão do navegador
+ * 4. Redireciona para página de login
+ */
 
 session_start();
 
-// Limpa a sessão
+// 1. Limpa todas as variáveis da sessão
 $_SESSION = [];
 
-// Destrói a sessão
+// 2. Destrói a sessão no servidor
 session_destroy();
 
-// Remove o cookie da sessão
+// 3. Remove o cookie de sessão do navegador
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000,
-        $params["path"], $params["domain"],
-        $params["secure"], $params["httponly"]
+    setcookie(
+        session_name(),
+        '',
+        time() - 42000, // Expira no passado
+        $params["path"],
+        $params["domain"],
+        $params["secure"],
+        $params["httponly"]
     );
 }
 
-// REDIRECIONA CORRETAMENTE
+// 4. Redireciona para login
 header('Location: ../public/login.php');
 exit;
-?>

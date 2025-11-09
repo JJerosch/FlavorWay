@@ -1,94 +1,90 @@
 <?php
+/**
+ * FlavorWay - Registro de Novos Usuários
+ * Processa o cadastro de estudantes
+ */
+
 session_start();
 require_once '../config/database.php';
+require_once '../config/helpers.php';
 
-header('Content-Type: application/json');
-
+// Aceita apenas POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'message' => 'Método não permitido']);
-    exit;
+    jsonResponse(false, 'Método não permitido');
 }
 
-$nome = trim($_POST['nome'] ?? '');
-$username = trim($_POST['username'] ?? '');
-$email = trim($_POST['email'] ?? '');
+// Captura e sanitiza dados do formulário
+$nome = sanitizeInput($_POST['nome'] ?? '');
+$username = sanitizeInput($_POST['username'] ?? '');
+$email = sanitizeInput($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
-// Validações
-if (empty($nome) || empty($username) || empty($email) || empty($password)) {
-    echo json_encode(['success' => false, 'message' => 'Preencha todos os campos']);
-    exit;
+// Valida campos obrigatórios
+$validation = validateRequiredFields([
+    'nome' => $nome,
+    'username' => $username,
+    'email' => $email,
+    'senha' => $password
+]);
+
+if (!$validation['valid']) {
+    jsonResponse(false, 'Preencha todos os campos');
 }
 
+// Validações específicas
 if (strlen($nome) < 3) {
-    echo json_encode(['success' => false, 'message' => 'Nome deve ter no mínimo 3 caracteres']);
-    exit;
+    jsonResponse(false, 'Nome deve ter no mínimo 3 caracteres');
 }
 
 if (strlen($username) < 3) {
-    echo json_encode(['success' => false, 'message' => 'Username deve ter no mínimo 3 caracteres']);
-    exit;
+    jsonResponse(false, 'Username deve ter no mínimo 3 caracteres');
 }
 
 if (!preg_match('/^[a-zA-Z0-9_]+$/', $username)) {
-    echo json_encode(['success' => false, 'message' => 'Username deve conter apenas letras, números e underscore']);
-    exit;
+    jsonResponse(false, 'Username deve conter apenas letras, números e underscore');
 }
 
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    echo json_encode(['success' => false, 'message' => 'E-mail inválido']);
-    exit;
+if (!isValidEmail($email)) {
+    jsonResponse(false, 'E-mail inválido');
 }
 
-if (strlen($password) < 6) {
-    echo json_encode(['success' => false, 'message' => 'Senha deve ter no mínimo 6 caracteres']);
-    exit;
+$passwordValidation = validatePasswordStrength($password);
+if (!$passwordValidation['valid']) {
+    jsonResponse(false, $passwordValidation['message']);
 }
 
 try {
-    // Verificar se email já existe
-    $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE email = ?");
-    $stmt->execute([$email]);
-    if ($stmt->fetch()) {
-        echo json_encode(['success' => false, 'message' => 'E-mail já cadastrado']);
-        exit;
+    // Verifica duplicações
+    if (emailExists($pdo, $email)) {
+        jsonResponse(false, 'E-mail já cadastrado');
     }
 
-    // Verificar se username já existe
-    $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE username = ?");
-    $stmt->execute([$username]);
-    if ($stmt->fetch()) {
-        echo json_encode(['success' => false, 'message' => 'Nome de usuário já está em uso']);
-        exit;
+    if (usernameExists($pdo, $username)) {
+        jsonResponse(false, 'Nome de usuário já está em uso');
     }
 
-    // Criar hash da senha
-    $senhaHash = password_hash($password, PASSWORD_DEFAULT);
-
-    // Iniciar transação
+    // Inicia transação para garantir integridade
     $pdo->beginTransaction();
 
-    // Inserir usuário
+    // Insere novo usuário
     $stmt = $pdo->prepare("
-        INSERT INTO usuarios (nome, username, email, senha, ativo) 
+        INSERT INTO usuarios (nome, username, email, senha, ativo)
         VALUES (?, ?, ?, ?, 1)
     ");
-    $stmt->execute([$nome, $username, $email, $senhaHash]);
+    $stmt->execute([$nome, $username, $email, hashPassword($password)]);
     $usuario_id = $pdo->lastInsertId();
 
-    // Inserir como estudante
+    // Registra como estudante
     $stmt = $pdo->prepare("INSERT INTO estudantes (usuario_id, progresso) VALUES (?, 0)");
     $stmt->execute([$usuario_id]);
 
+    // Confirma transação
     $pdo->commit();
 
-    echo json_encode([
-        'success' => true, 
-        'message' => 'Conta criada com sucesso! Redirecionando para login...'
-    ]);
+    jsonResponse(true, 'Conta criada com sucesso! Redirecionando para login...');
 
 } catch (PDOException $e) {
+    // Reverte em caso de erro
     $pdo->rollBack();
-    echo json_encode(['success' => false, 'message' => 'Erro ao criar conta. Tente novamente.']);
+    jsonResponse(false, 'Erro ao criar conta. Tente novamente.');
 }
-?>

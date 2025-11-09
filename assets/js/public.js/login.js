@@ -1,34 +1,14 @@
-function togglePassword(inputId) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById(inputId + '-icon');
-
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-    } else {
-        input.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-    }
-}
-
-function showAlert(message, type = 'error') {
-    const alertContainer = document.getElementById('alertContainer');
-    alertContainer.innerHTML = `
-                <div class="alert alert-${type}">
-                    <i class="fas fa-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
-                    ${message}
-                </div>
-            `;
-}
+/**
+ * FlavorWay - Login
+ * Gerencia o formulário de autenticação
+ * Funções compartilhadas em: utils.js
+ */
 
 document.getElementById('loginForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Entrando...';
+    disableButton(submitBtn, 'Entrando...');
 
     const formData = new FormData(this);
 
@@ -43,25 +23,14 @@ document.getElementById('loginForm').addEventListener('submit', async function (
         if (data.success) {
             showAlert(data.message, 'success');
             setTimeout(() => {
-                window.location.href = data.redirect;
+                window.location.href = data.data.redirect;
             }, 1000);
         } else {
             showAlert(data.message, 'error');
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar';
+            enableButton(submitBtn);
         }
     } catch (error) {
         showAlert('Erro ao conectar com o servidor. Tente novamente.', 'error');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar';
+        enableButton(submitBtn);
     }
-
-
-
-
-
 });
-
-
-
-
