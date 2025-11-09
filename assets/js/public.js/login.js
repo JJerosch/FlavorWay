@@ -1,7 +1,7 @@
 /**
  * FlavorWay - Login
- * Gerencia o formulário de autenticação
- * Funções compartilhadas em: utils.js
+ * Manages the authentication form
+ * Shared functions in: utils.js
  */
 
 document.getElementById('loginForm').addEventListener('submit', async function (e) {

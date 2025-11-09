@@ -1,14 +1,14 @@
 <?php
 /**
- * FlavorWay - Funções Helper
- * Funções reutilizáveis para todo o sistema
+ * FlavorWay - Helper Functions
+ * Reusable functions for the entire system
  */
 
 /**
- * Retorna resposta JSON padronizada
- * @param bool $success - Se a operação foi bem-sucedida
- * @param string $message - Mensagem para o usuário
- * @param mixed $data - Dados adicionais (opcional)
+ * Returns standardized JSON response
+ * @param bool $success - Whether the operation was successful
+ * @param string $message - Message for the user
+ * @param mixed $data - Additional data (optional)
  */
 function jsonResponse($success, $message, $data = null) {
     $response = [
@@ -26,8 +26,8 @@ function jsonResponse($success, $message, $data = null) {
 }
 
 /**
- * Valida se todos os campos obrigatórios estão preenchidos
- * @param array $fields - Array com os campos a validar
+ * Validates if all required fields are filled
+ * @param array $fields - Array with fields to validate
  * @return array - ['valid' => bool, 'message' => string]
  */
 function validateRequiredFields($fields) {
@@ -44,7 +44,7 @@ function validateRequiredFields($fields) {
 }
 
 /**
- * Valida formato de email
+ * Validates email format
  * @param string $email
  * @return bool
  */
@@ -53,7 +53,7 @@ function isValidEmail($email) {
 }
 
 /**
- * Valida força da senha
+ * Validates password strength
  * @param string $password
  * @return array - ['valid' => bool, 'message' => string]
  */
@@ -69,7 +69,7 @@ function validatePasswordStrength($password) {
 }
 
 /**
- * Gera hash seguro da senha
+ * Generates secure password hash
  * @param string $password
  * @return string
  */
@@ -78,7 +78,7 @@ function hashPassword($password) {
 }
 
 /**
- * Verifica se senha corresponde ao hash
+ * Verifies if password matches hash
  * @param string $password
  * @param string $hash
  * @return bool
@@ -88,7 +88,7 @@ function verifyPassword($password, $hash) {
 }
 
 /**
- * Verifica se usuário está logado
+ * Checks if user is logged in
  * @return bool
  */
 function isLoggedIn() {
@@ -96,7 +96,7 @@ function isLoggedIn() {
 }
 
 /**
- * Verifica se usuário é administrador
+ * Checks if user is administrator
  * @return bool
  */
 function isAdmin() {
@@ -104,7 +104,7 @@ function isAdmin() {
 }
 
 /**
- * Redireciona para página de login se não estiver autenticado
+ * Redirects to login page if not authenticated
  */
 function requireLogin() {
     if (!isLoggedIn()) {
@@ -114,7 +114,7 @@ function requireLogin() {
 }
 
 /**
- * Redireciona para página de login se não for administrador
+ * Redirects to login page if not administrator
  */
 function requireAdmin() {
     if (!isLoggedIn() || !isAdmin()) {
@@ -124,7 +124,7 @@ function requireAdmin() {
 }
 
 /**
- * Sanitiza string para prevenir XSS
+ * Sanitizes string to prevent XSS
  * @param string $data
  * @return string
  */
@@ -133,10 +133,10 @@ function sanitizeInput($data) {
 }
 
 /**
- * Verifica se email já está cadastrado
+ * Checks if email is already registered
  * @param PDO $pdo
  * @param string $email
- * @param int|null $excludeUserId - ID do usuário a excluir da verificação (para updates)
+ * @param int|null $excludeUserId - User ID to exclude from check (for updates)
  * @return bool
  */
 function emailExists($pdo, $email, $excludeUserId = null) {
@@ -155,10 +155,10 @@ function emailExists($pdo, $email, $excludeUserId = null) {
 }
 
 /**
- * Verifica se username já está cadastrado
+ * Checks if username is already registered
  * @param PDO $pdo
  * @param string $username
- * @param int|null $excludeUserId - ID do usuário a excluir da verificação (para updates)
+ * @param int|null $excludeUserId - User ID to exclude from check (for updates)
  * @return bool
  */
 function usernameExists($pdo, $username, $excludeUserId = null) {
@@ -177,7 +177,7 @@ function usernameExists($pdo, $username, $excludeUserId = null) {
 }
 
 /**
- * Busca usuário por email ou username
+ * Finds user by email or username
  * @param PDO $pdo
  * @param string $emailOrUsername
  * @return array|false
@@ -193,7 +193,7 @@ function findUserByEmailOrUsername($pdo, $emailOrUsername) {
 }
 
 /**
- * Atualiza último acesso do usuário
+ * Updates user's last access timestamp
  * @param PDO $pdo
  * @param int $userId
  */
@@ -203,7 +203,7 @@ function updateLastAccess($pdo, $userId) {
 }
 
 /**
- * Inicia sessão de forma segura
+ * Starts session securely
  */
 function startSecureSession() {
     if (session_status() === PHP_SESSION_NONE) {

@@ -1,13 +1,13 @@
 <?php
 /**
- * FlavorWay - Gerenciamento de Sessão
+ * FlavorWay - Session Management
  *
- * Este arquivo:
- * - Inicia a sessão do usuário
- * - Fornece dados do usuário para JavaScript
- * - Deve ser incluído em páginas que precisam acessar info de sessão
+ * This file:
+ * - Starts user session
+ * - Provides user data to JavaScript
+ * - Should be included in pages that need session access
  *
- * Uso: require_once '../auth/session.php';
+ * Usage: require_once '../auth/session.php';
  */
 
 session_start();
@@ -15,8 +15,8 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/helpers.php';
 
 /**
- * Busca dados completos do usuário atual do banco
- * @return array|null - Dados do usuário ou null se não logado
+ * Fetches complete current user data from database
+ * @return array|null - User data or null if not logged in
  */
 function getUser() {
     if (!isset($_SESSION['user_id'])) {
@@ -31,8 +31,8 @@ function getUser() {
 }
 
 /**
- * Disponibiliza dados da sessão no JavaScript
- * Cria objeto global window.USER acessível em scripts client-side
+ * Makes session data available in JavaScript
+ * Creates global window.USER object accessible in client-side scripts
  */
 echo "<script>
     window.USER = {
@@ -43,7 +43,7 @@ echo "<script>
         isAdmin: " . (isset($_SESSION['user_type']) && $_SESSION['user_type'] === 'admin' ? 'true' : 'false') . "
     };
 
-    // Função helper para acessar dados do usuário
+    // Helper function to access user data
     function getUserJS() {
         return window.USER;
     }

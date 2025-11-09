@@ -1,23 +1,23 @@
 <?php
 /**
- * FlavorWay - Autenticação
- * Processa login de administradores e estudantes
+ * FlavorWay - Authentication
+ * Processes login for administrators and students
  */
 
 session_start();
 require_once '../config/database.php';
 require_once '../config/helpers.php';
 
-// Aceita apenas POST
+// Accept only POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     jsonResponse(false, 'Método não permitido');
 }
 
-// Captura credenciais
+// Capture credentials
 $emailOrUsername = sanitizeInput($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
-// Valida campos
+// Validate fields
 $validation = validateRequiredFields([
     'email/username' => $emailOrUsername,
     'senha' => $password
@@ -28,7 +28,7 @@ if (!$validation['valid']) {
 }
 
 try {
-    // Tenta login como ADMINISTRADOR
+    // Try login as ADMINISTRATOR
     $stmt = $pdo->prepare("
         SELECT u.*, a.nivel
         FROM usuarios u
@@ -39,14 +39,14 @@ try {
     $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($admin && verifyPassword($password, $admin['senha'])) {
-        // Configura sessão de admin
+        // Setup admin session
         $_SESSION['user_id'] = $admin['id'];
         $_SESSION['user_name'] = $admin['nome'];
         $_SESSION['user_email'] = $admin['email'];
         $_SESSION['user_type'] = 'admin';
         $_SESSION['admin_level'] = $admin['nivel'];
 
-        // Atualiza último acesso
+        // Update last access
         updateLastAccess($pdo, $admin['id']);
 
         jsonResponse(true, 'Login realizado com sucesso!', [
@@ -54,7 +54,7 @@ try {
         ]);
     }
 
-    // Tenta login como ESTUDANTE
+    // Try login as STUDENT
     $stmt = $pdo->prepare("
         SELECT u.*, e.progresso
         FROM usuarios u
@@ -65,14 +65,14 @@ try {
     $estudante = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($estudante && verifyPassword($password, $estudante['senha'])) {
-        // Configura sessão de estudante
+        // Setup student session
         $_SESSION['user_id'] = $estudante['id'];
         $_SESSION['user_name'] = $estudante['nome'];
         $_SESSION['user_email'] = $estudante['email'];
         $_SESSION['user_type'] = 'estudante';
         $_SESSION['progresso'] = $estudante['progresso'];
 
-        // Atualiza último acesso
+        // Update last access
         updateLastAccess($pdo, $estudante['id']);
 
         jsonResponse(true, 'Bem-vindo de volta!', [
@@ -80,7 +80,7 @@ try {
         ]);
     }
 
-    // Credenciais inválidas
+    // Invalid credentials
     jsonResponse(false, 'Credenciais inválidas');
 
 } catch (PDOException $e) {

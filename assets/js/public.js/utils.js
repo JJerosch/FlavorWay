@@ -1,11 +1,11 @@
 /**
- * FlavorWay - Utilidades JavaScript Compartilhadas
- * Funções reutilizáveis em todo o site
+ * FlavorWay - Shared JavaScript Utilities
+ * Reusable functions across the entire site
  */
 
 /**
- * Alterna visibilidade da senha
- * @param {string} inputId - ID do campo de senha
+ * Toggles password visibility
+ * @param {string} inputId - Password field ID
  */
 function togglePassword(inputId) {
     const input = document.getElementById(inputId);
@@ -23,9 +23,9 @@ function togglePassword(inputId) {
 }
 
 /**
- * Exibe mensagem de alerta para o usuário
- * @param {string} message - Mensagem a ser exibida
- * @param {string} type - Tipo do alerta ('error' ou 'success')
+ * Displays alert message to user
+ * @param {string} message - Message to display
+ * @param {string} type - Alert type ('error' or 'success')
  */
 function showAlert(message, type = 'error') {
     const alertContainer = document.getElementById('alertContainer');
@@ -38,21 +38,21 @@ function showAlert(message, type = 'error') {
 }
 
 /**
- * Calcula a força de uma senha
- * @param {string} password - Senha a ser verificada
- * @returns {Object} - {strength: number, text: string, color: string}
+ * Calculates password strength
+ * @param {string} password - Password to verify
+ * @returns {Object} - {strength: number, className: string, text: string, color: string}
  */
 function calculatePasswordStrength(password) {
     let strength = 0;
 
-    // Critérios de força
+    // Strength criteria
     if (password.length >= 6) strength++;
     if (password.length >= 10) strength++;
     if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
     if (/[0-9]/.test(password)) strength++;
     if (/[^a-zA-Z0-9]/.test(password)) strength++;
 
-    // Retorna resultado baseado na força
+    // Return result based on strength
     if (strength <= 2) {
         return {
             strength: strength,
@@ -78,9 +78,9 @@ function calculatePasswordStrength(password) {
 }
 
 /**
- * Desabilita botão durante envio de formulário
- * @param {HTMLElement} button - Botão a ser desabilitado
- * @param {string} loadingText - Texto a exibir durante carregamento
+ * Disables button during form submission
+ * @param {HTMLElement} button - Button to disable
+ * @param {string} loadingText - Text to display during loading
  */
 function disableButton(button, loadingText) {
     button.disabled = true;
@@ -89,8 +89,8 @@ function disableButton(button, loadingText) {
 }
 
 /**
- * Reabilita botão após envio de formulário
- * @param {HTMLElement} button - Botão a ser reabilitado
+ * Re-enables button after form submission
+ * @param {HTMLElement} button - Button to re-enable
  */
 function enableButton(button) {
     button.disabled = false;

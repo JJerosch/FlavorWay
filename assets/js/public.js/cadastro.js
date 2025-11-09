@@ -1,32 +1,32 @@
 /**
- * FlavorWay - Cadastro
- * Gerencia o formulário de registro de novos usuários
- * Funções compartilhadas em: utils.js
+ * FlavorWay - Register
+ * Manages the registration form for new users
+ * Shared functions in: utils.js
  */
 
-// Verificador de força da senha em tempo real
+// Real-time password strength checker
 document.getElementById('password').addEventListener('input', function (e) {
     const password = e.target.value;
     const strengthBar = document.getElementById('strengthBar');
     const strengthText = document.getElementById('strengthText');
 
-    // Calcula força usando função compartilhada
+    // Calculate strength using shared function
     const result = calculatePasswordStrength(password);
 
-    // Atualiza interface
+    // Update interface
     strengthBar.className = 'strength-fill ' + result.className;
     strengthText.textContent = result.text;
     strengthText.style.color = result.color;
 });
 
-// Submissão do formulário de cadastro
+// Register form submission
 document.getElementById('cadastroForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm_password').value;
 
-    // Valida se as senhas coincidem
+    // Validate if passwords match
     if (password !== confirmPassword) {
         showAlert('As senhas não coincidem!', 'error');
         return;
@@ -55,7 +55,7 @@ document.getElementById('cadastroForm').addEventListener('submit', async functio
             enableButton(submitBtn);
         }
     } catch (error) {
-        console.error('Erro capturado:', error);
+        console.error('Error caught:', error);
         showAlert('Erro de rede ou conexão. Verifique sua conexão e tente novamente.', 'error');
         enableButton(submitBtn);
     }

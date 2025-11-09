@@ -2,28 +2,28 @@
 /**
  * FlavorWay - Logout
  *
- * Destrói completamente a sessão do usuário:
- * 1. Limpa todas as variáveis de sessão
- * 2. Destrói a sessão no servidor
- * 3. Remove o cookie de sessão do navegador
- * 4. Redireciona para página de login
+ * Completely destroys user session:
+ * 1. Clears all session variables
+ * 2. Destroys session on server
+ * 3. Removes session cookie from browser
+ * 4. Redirects to login page
  */
 
 session_start();
 
-// 1. Limpa todas as variáveis da sessão
+// 1. Clear all session variables
 $_SESSION = [];
 
-// 2. Destrói a sessão no servidor
+// 2. Destroy session on server
 session_destroy();
 
-// 3. Remove o cookie de sessão do navegador
+// 3. Remove session cookie from browser
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(
         session_name(),
         '',
-        time() - 42000, // Expira no passado
+        time() - 42000, // Expires in the past
         $params["path"],
         $params["domain"],
         $params["secure"],
@@ -31,6 +31,6 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// 4. Redireciona para login
+// 4. Redirect to login
 header('Location: ../public/login.php');
 exit;
