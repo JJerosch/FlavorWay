@@ -42,6 +42,31 @@ if (empty($regiao_slug)) {
     <link rel="stylesheet" href="../assets/css/public.css/homestyles.css">
     <link rel="stylesheet" href="../assets/css/public.css/culinariabrasileira.css">
     <link rel="stylesheet" href="../assets/css/public.css/regiao.css">
+    <style>
+        /* Estilos críticos para busca (evita FOUC) */
+        .search-container {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .search-container.active { display: block; }
+        .search-inner { display: flex; gap: 0.5rem; max-width: 600px; margin: 0 auto; }
+        .search-input { flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        .search-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        .menu-toggle { display: none; }
+        @media (max-width: 768px) {
+            .nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: white; padding: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+            .nav.active { display: flex; }
+            .menu-toggle { display: block; }
+            .header-actions .search-btn { display: none; }
+        }
+    </style>
 </head>
 <body class="regiao-page">
     <!-- Header -->
@@ -72,8 +97,21 @@ if (empty($regiao_slug)) {
                     <a href="../auth/logout.php" class="btn-logout">
                         <i class="fas fa-sign-out-alt"></i> Sair
                     </a>
-                    <button class="menu-toggle" onclick="toggleMenu()">
+                    <button class="search-btn" onclick="toggleSearch()" aria-label="Buscar">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
                         <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Barra de Pesquisa -->
+            <div class="search-container" id="searchContainer">
+                <div class="search-inner">
+                    <input type="text" placeholder="Buscar receitas, regiões..." class="search-input" onkeypress="if(event.key==='Enter') search()">
+                    <button class="search-close" onclick="toggleSearch()" aria-label="Fechar">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
@@ -204,5 +242,23 @@ if (empty($regiao_slug)) {
         const REGIAO_SLUG = '<?= htmlspecialchars($regiao_slug, ENT_QUOTES, 'UTF-8') ?>';
     </script>
     <script src="../assets/js/public.js/regiao.js"></script>
+    <script>
+    // Funções auxiliares (consistência com index.php)
+    function toggleSearch() {
+        const container = document.getElementById('searchContainer');
+        container.classList.toggle('active');
+        if (container.classList.contains('active')) {
+            container.querySelector('input').focus();
+        }
+    }
+
+    function search() {
+        const query = document.querySelector('.search-input').value.trim();
+        if (query) {
+            alert('Buscando por: ' + query);
+            // Aqui você conecta com PHP/AJAX depois
+        }
+    }
+    </script>
 </body>
 </html>

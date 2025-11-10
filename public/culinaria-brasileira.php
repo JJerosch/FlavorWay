@@ -1,3 +1,30 @@
+<?php
+session_start();
+
+// === VERIFICA LOGIN ===
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
+// === CARREGA CONEXÃO ===
+require_once '../config/database.php';
+
+// === PUXA NOME DO BANCO ===
+try {
+    $stmt = $pdo->prepare("SELECT nome FROM usuarios WHERE id = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch();
+    $_SESSION['username'] = $user['nome'] ?? 'Usuário';
+} catch (Exception $e) {
+    $_SESSION['username'] = 'Usuário';
+}
+
+// === FUNÇÃO SEGURA ===
+function getUserName() {
+    return htmlspecialchars($_SESSION['username'] ?? 'Usuário', ENT_QUOTES, 'UTF-8');
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,12 +34,37 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/public.css/homestyles.css">
     <link rel="stylesheet" href="../assets/css/public.css/culinariabrasileira.css">
+    <style>
+        /* Estilos críticos para busca (evita FOUC) */
+        .search-container {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .search-container.active { display: block; }
+        .search-inner { display: flex; gap: 0.5rem; max-width: 600px; margin: 0 auto; }
+        .search-input { flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        .search-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        .menu-toggle { display: none; }
+        @media (max-width: 768px) {
+            .nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: white; padding: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+            .nav.active { display: flex; }
+            .menu-toggle { display: block; }
+            .header-actions .search-btn { display: none; }
+        }
+    </style>
 </head>
 <body class="culinaria-page">
     <header class="header brasil-header" id="header">
         <div class="container">
             <div class="header-content">
-                
+
                 <div class="logo">
                     <i class="fas fa-utensils"></i>
                     <div>
@@ -20,7 +72,7 @@
                         <span>Culinária Brasileira</span>
                     </div>
                 </div>
-                
+
                 <nav class="nav" id="nav">
                     <a href="index.php" class="nav-link">
                         <i class="fas fa-home"></i> Início
@@ -30,21 +82,29 @@
                     <a href="#ingredientes" class="nav-link">Ingredientes</a>
                     <a href="#cultura" class="nav-link">Cultura</a>
                 </nav>
-                
+
                 <div class="header-actions">
-                    <button class="search-btn" onclick="toggleSearch()">
+                    <span class="user-greeting">Olá, <?= getUserName() ?>!</span>
+                    <a href="../auth/logout.php" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </a>
+                    <button class="search-btn" onclick="toggleSearch()" aria-label="Buscar">
                         <i class="fas fa-search"></i>
                     </button>
-                    <button class="menu-toggle" onclick="toggleMenu()">
+                    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
             </div>
+
+            <!-- Barra de Pesquisa -->
             <div class="search-container" id="searchContainer">
-                <input type="text" placeholder="Buscar receitas, regiões..." class="search-input">
-                <button class="search-close" onclick="toggleSearch()">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="search-inner">
+                    <input type="text" placeholder="Buscar receitas, regiões..." class="search-input" onkeypress="if(event.key==='Enter') search()">
+                    <button class="search-close" onclick="toggleSearch()" aria-label="Fechar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -298,5 +358,23 @@
     </footer>
 
     <script src="../assets/js/public.js/culinaria-brasileira.js"></script>
+    <script>
+    // Funções auxiliares (consistência com index.php)
+    function toggleSearch() {
+        const container = document.getElementById('searchContainer');
+        container.classList.toggle('active');
+        if (container.classList.contains('active')) {
+            container.querySelector('input').focus();
+        }
+    }
+
+    function search() {
+        const query = document.querySelector('.search-input').value.trim();
+        if (query) {
+            alert('Buscando por: ' + query);
+            // Aqui você conecta com PHP/AJAX depois
+        }
+    }
+    </script>
 </body>
 </html>

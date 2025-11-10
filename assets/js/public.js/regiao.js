@@ -232,7 +232,7 @@ function setupEventListeners() {
     window.addEventListener('scroll', handleScroll);
 }
 
-// Funções auxiliares
+// Funções auxiliares (compartilhadas com outras páginas)
 function toggleMenu() {
     const nav = document.getElementById('nav');
     nav.classList.toggle('active');
