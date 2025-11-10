@@ -1,0 +1,607 @@
+/**
+ * Estilos para página dinâmica de receita
+ */
+
+/* Hero da Receita */
+.hero-receita {
+    position: relative;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    overflow: hidden;
+    padding: 8rem 0 3rem;
+}
+
+.hero-bg-receita {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #ea580c 0%, #dc2626 50%, #b91c1c 100%);
+    z-index: -1;
+}
+
+.hero-content-receita {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.receita-header-info {
+    text-align: center;
+}
+
+.receita-badge-large {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.6rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.receita-title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.receita-description {
+    font-size: 1.25rem;
+    opacity: 0.95;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.receita-meta-info {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.meta-item i {
+    font-size: 1.5rem;
+}
+
+.meta-item div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.meta-item strong {
+    font-size: 1.1rem;
+    display: block;
+}
+
+.meta-item span {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.receita-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-favorito,
+.btn-regiao,
+.btn-share {
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    border: none;
+}
+
+.btn-favorito {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-favorito.favorited {
+    background: #dc2626;
+    color: white;
+}
+
+.btn-favorito:hover {
+    background: white;
+    color: #dc2626;
+}
+
+.btn-regiao {
+    background: rgba(255, 255, 255, 0.95);
+    color: #ea580c;
+}
+
+.btn-regiao:hover {
+    background: white;
+    transform: scale(1.05);
+}
+
+.btn-share {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-share:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: white;
+}
+
+/* Seção de Informações */
+.receita-info {
+    padding: 5rem 0;
+    background: #f9fafb;
+}
+
+.receita-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.receita-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.receita-section.full-width {
+    grid-column: 1 / -1;
+}
+
+.section-header-small {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid #ea580c;
+}
+
+.section-header-small h3 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-header-small i {
+    color: #ea580c;
+}
+
+/* Ingredientes */
+.ingredientes-categoria {
+    margin-bottom: 2rem;
+}
+
+.ingredientes-categoria:last-child {
+    margin-bottom: 0;
+}
+
+.ingredientes-categoria h4 {
+    color: #ea580c;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ingredientes-categoria ul {
+    list-style: none;
+    padding: 0;
+}
+
+.ingredientes-categoria li {
+    padding: 0.75rem 0;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.ingredientes-categoria li:last-child {
+    border-bottom: none;
+}
+
+.ingredientes-categoria li i {
+    color: #10b981;
+    font-size: 0.9rem;
+}
+
+/* Informações Nutricionais */
+.nutricao-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.nutricao-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: #f9fafb;
+    border-radius: 12px;
+}
+
+.nutricao-item i {
+    font-size: 2rem;
+    color: #ea580c;
+}
+
+.nutricao-item div {
+    display: flex;
+    flex-direction: column;
+}
+
+.nutricao-item strong {
+    font-size: 1.1rem;
+    color: #1f2937;
+}
+
+.nutricao-item span {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+/* Avaliações */
+.avaliacoes-section {
+    padding: 5rem 0;
+    background: white;
+}
+
+.avaliacoes-stats {
+    margin: 3rem 0;
+}
+
+.stats-resumo {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 3rem;
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.rating-grande {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.rating-numero {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #ea580c;
+    line-height: 1;
+}
+
+.rating-estrelas {
+    margin: 1rem 0;
+    color: #fbbf24;
+    font-size: 1.5rem;
+}
+
+.rating-total {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+.rating-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.bar-label {
+    min-width: 60px;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.bar-label i {
+    color: #fbbf24;
+}
+
+.bar-container {
+    flex: 1;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ea580c, #fbbf24);
+    transition: width 0.3s ease;
+}
+
+.bar-count {
+    min-width: 40px;
+    text-align: right;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* Formulário de Avaliação */
+.avaliacao-form-container {
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 3rem 0;
+}
+
+.avaliacao-form-container h3 {
+    margin-bottom: 1.5rem;
+    color: #1f2937;
+}
+
+.rating-input {
+    margin-bottom: 1.5rem;
+}
+
+.rating-input label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-weight: 600;
+}
+
+.stars-input {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 2rem;
+}
+
+.stars-input i {
+    color: #d1d5db;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.stars-input i:hover,
+.stars-input i.fas {
+    color: #fbbf24;
+    transform: scale(1.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-weight: 600;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #ea580c;
+}
+
+/* Lista de Avaliações */
+.avaliacoes-list {
+    margin-top: 3rem;
+}
+
+.avaliacao-card {
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+}
+
+.avaliacao-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.avaliacao-usuario {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.usuario-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #ea580c;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.usuario-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avaliacao-usuario strong {
+    display: block;
+    color: #1f2937;
+}
+
+.avaliacao-usuario span {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.avaliacao-rating {
+    color: #fbbf24;
+}
+
+.avaliacao-comentario {
+    margin-top: 1rem;
+    color: #374151;
+    line-height: 1.6;
+}
+
+/* Notificações */
+.notificacao {
+    position: fixed;
+    top: 100px;
+    right: -400px;
+    background: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 10000;
+    transition: right 0.3s ease;
+    max-width: 350px;
+}
+
+.notificacao.show {
+    right: 20px;
+}
+
+.notificacao-success {
+    border-left: 4px solid #10b981;
+}
+
+.notificacao-error {
+    border-left: 4px solid #ef4444;
+}
+
+.notificacao-warning {
+    border-left: 4px solid #f59e0b;
+}
+
+.notificacao i {
+    font-size: 1.5rem;
+}
+
+.notificacao-success i {
+    color: #10b981;
+}
+
+.notificacao-error i {
+    color: #ef4444;
+}
+
+.notificacao-warning i {
+    color: #f59e0b;
+}
+
+/* Placeholder */
+.placeholder-text {
+    color: #9ca3af;
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+}
+
+.no-avaliacoes {
+    text-align: center;
+    padding: 3rem;
+    color: #9ca3af;
+}
+
+.no-avaliacoes i {
+    font-size: 3rem;
+    color: #fbbf24;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .receita-title {
+        font-size: 2rem;
+    }
+
+    .receita-description {
+        font-size: 1rem;
+    }
+
+    .receita-meta-info {
+        gap: 1rem;
+    }
+
+    .meta-item {
+        padding: 0.75rem 1rem;
+    }
+
+    .stats-resumo {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .receita-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nutricao-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .notificacao {
+        left: 20px;
+        right: 20px;
+        max-width: calc(100% - 40px);
+    }
+
+    .notificacao.show {
+        right: 20px;
+    }
+}
