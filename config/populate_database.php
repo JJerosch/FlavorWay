@@ -151,6 +151,7 @@ try {
 
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
 
     echo '<div class="success">✓ Conexão estabelecida com sucesso</div>';
     echo '</div>';
@@ -173,21 +174,25 @@ try {
     echo '<div class="step">';
     echo '<div class="step-title">3️⃣ Executando Comandos SQL</div>';
 
+    // Remove comments and split SQL into individual statements
+    $sql = preg_replace('/^--.*$/m', '', $sql); // Remove comment lines
+    $sql = preg_replace('/^USE .*;/mi', '', $sql); // Remove USE statements
+
     // Split SQL into individual statements
     $statements = array_filter(
         array_map('trim', explode(';', $sql)),
         function($statement) {
+            $statement = trim($statement);
+            // Skip empty statements, comments, and SELECT statements at the end
             return !empty($statement) &&
                    !preg_match('/^--/', $statement) &&
-                   !preg_match('/^USE/', $statement) &&
-                   !preg_match('/^SELECT.*Mensagem/', $statement);
+                   !preg_match('/^SELECT/i', $statement);
         }
     );
 
     $executed = 0;
     $errors = 0;
-
-    $pdo->beginTransaction();
+    $insertedTables = [];
 
     foreach ($statements as $statement) {
         try {
@@ -198,7 +203,11 @@ try {
 
                 // Show progress for INSERT statements
                 if (preg_match('/^INSERT INTO `?(\w+)`?/i', $statement, $matches)) {
-                    echo '<div style="color: #059669; margin: 5px 0;">✓ Dados inseridos em <strong>' . $matches[1] . '</strong></div>';
+                    $table = $matches[1];
+                    if (!in_array($table, $insertedTables)) {
+                        echo '<div style="color: #059669; margin: 5px 0;">✓ Dados inseridos em <strong>' . $table . '</strong></div>';
+                        $insertedTables[] = $table;
+                    }
                 }
             }
         } catch (PDOException $e) {
@@ -209,8 +218,6 @@ try {
             }
         }
     }
-
-    $pdo->commit();
 
     echo '<div class="success">✓ Total: ' . $executed . ' comandos executados com sucesso</div>';
     if ($errors > 0) {
@@ -237,7 +244,10 @@ try {
 
     foreach ($stats as $table => $label) {
         $stmt = $pdo->query("SELECT COUNT(*) as total FROM `$table`");
-        $count = $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $count = $result[0]['total'];
+        $stmt->closeCursor();
+
         echo '<div class="stat-card">';
         echo '<div class="stat-number">' . $count . '</div>';
         echo '<div class="stat-label">' . $label . '</div>';
@@ -259,8 +269,11 @@ try {
         ORDER BY r.ordem
     ");
 
+    $regions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->closeCursor();
+
     echo '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">';
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    foreach ($regions as $row) {
         echo '<div style="background: #f3f4f6; padding: 15px; border-radius: 8px; text-align: center;">';
         echo '<div style="font-size: 1.8rem; font-weight: 700; color: #ea580c;">' . $row['total'] . '</div>';
         echo '<div style="color: #6b7280; font-size: 0.9rem;">' . $row['regiao'] . '</div>';
@@ -285,17 +298,17 @@ try {
     echo '</div>';
 
 } catch (Exception $e) {
-    if (isset($pdo) && $pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-
     echo '<div class="error">';
     echo '<h3>❌ Erro Fatal</h3>';
     echo '<p><strong>Mensagem:</strong> ' . htmlspecialchars($e->getMessage()) . '</p>';
     echo '<p><strong>Linha:</strong> ' . $e->getLine() . '</p>';
-    echo '<pre style="background: #1f2937; color: #f87171; padding: 15px; border-radius: 8px; overflow-x: auto;">';
+    echo '<p><strong>Arquivo:</strong> ' . htmlspecialchars($e->getFile()) . '</p>';
+    echo '<pre style="background: #1f2937; color: #f87171; padding: 15px; border-radius: 8px; overflow-x: auto; max-height: 400px; overflow-y: auto;">';
     echo htmlspecialchars($e->getTraceAsString());
     echo '</pre>';
+    echo '<div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-radius: 8px;">';
+    echo '<strong>Dica:</strong> Verifique se o banco de dados já foi criado usando o arquivo <code>createtable.php</code>';
+    echo '</div>';
     echo '</div>';
 }
 

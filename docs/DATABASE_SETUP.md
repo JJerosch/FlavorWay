@@ -207,16 +207,31 @@ SELECT
 
 ### Erro: "Access denied for user"
 - Verifique se o MySQL está rodando
-- Confirme usuário/senha no arquivo de conexão
+- Confirme usuário/senha no arquivo de conexão (linhas 17-20 do arquivo PHP)
+- Padrão XAMPP: user=`root`, password=`""` (vazio)
 
-### Erro: "Table already exists"
+### Erro: "Table already exists" ou "Duplicate entry"
 - O banco já foi criado anteriormente
-- Use `DROP DATABASE flavor_way;` antes de recriar
+- Use `DROP DATABASE flavor_way;` antes de recriar OU
+- Ignore os avisos, eles são normais se você executar o script mais de uma vez
+
+### Erro: "Cannot execute queries while other unbuffered queries are active"
+- ✓ **JÁ CORRIGIDO** na versão atual do script
+- O script agora usa buffered queries automaticamente
 
 ### Script não executa
-- Verifique se o PHP está ativo
+- Verifique se o PHP está ativo no XAMPP/WAMP
 - Confirme o caminho do projeto no localhost
-- Veja os logs de erro do PHP
+- Veja os logs de erro do PHP em `xampp/apache/logs/error.log`
+
+### Erro: "Arquivo SQL não encontrado"
+- Certifique-se de que o arquivo `/docs/populate_database.sql` existe
+- Verifique a estrutura de pastas do projeto
+
+### Banco criado mas sem dados
+1. Execute primeiro: `createtable.php` (cria estrutura)
+2. Depois execute: `populate_database.php` (insere dados)
+3. Ordem é importante!
 
 ## 📞 Suporte
 
