@@ -108,12 +108,18 @@ function renderCulinarias() {
 // Carrega receitas em destaque do banco de dados
 async function loadReceitasDestaque() {
   try {
+    console.log("Carregando receitas em destaque...")
     const response = await fetch("../api/get-receitas-destaque.php")
+    console.log("Status da resposta:", response.status)
+
     const data = await response.json()
+    console.log("Dados recebidos:", data)
 
     if (data.success && data.receitas && data.receitas.length > 0) {
       receitasDestaque = data.receitas
+      console.log("✅ Receitas carregadas do banco:", receitasDestaque.length)
     } else {
+      console.log("⚠️ Nenhuma receita no banco, usando receitas de exemplo")
       // Se não houver receitas no banco, usa receitas de exemplo
       receitasDestaque = [
         {
@@ -146,7 +152,7 @@ async function loadReceitasDestaque() {
       ]
     }
   } catch (error) {
-    console.error("Erro ao carregar receitas em destaque:", error)
+    console.error("❌ Erro ao carregar receitas em destaque:", error)
     // Em caso de erro, usa receitas de exemplo
     receitasDestaque = [
       {
