@@ -11,12 +11,19 @@ header('Access-Control-Allow-Methods: GET');
 require_once '../config/database.php';
 
 try {
+    // Primeiro, verifica se a coluna 'imagem' existe
+    $stmt = $pdo->query("SHOW COLUMNS FROM receitas LIKE 'imagem'");
+    $has_imagem = $stmt->rowCount() > 0;
+
+    // Constrói a query dinamicamente baseado nos campos disponíveis
+    $imagem_field = $has_imagem ? 'r.imagem,' : '';
+
     // Busca receitas marcadas como destaque
     $sql = "SELECT
                 r.id,
                 r.nome,
                 r.descricao,
-                r.imagem,
+                $imagem_field
                 r.tempo_preparo as tempo,
                 r.dificuldade,
                 r.rating,
@@ -38,7 +45,7 @@ try {
                     r.id,
                     r.nome,
                     r.descricao,
-                    r.imagem,
+                    $imagem_field
                     r.tempo_preparo as tempo,
                     r.dificuldade,
                     r.rating,
@@ -55,29 +62,39 @@ try {
     }
 
     // Formata os dados para o frontend
-    $receitas_formatadas = array_map(function($receita) {
+    $receitas_formatadas = array_map(function($receita) use ($has_imagem) {
         return [
             'id' => (int)$receita['id'],
             'nome' => $receita['nome'],
-            'descricao' => $receita['descricao'],
+            'descricao' => $receita['descricao'] ?? '',
             'culinaria' => $receita['culinaria'] ?? 'Brasileira',
-            'tempo' => $receita['tempo'],
-            'dificuldade' => $receita['dificuldade'],
-            'rating' => (float)$receita['rating'],
-            'image' => $receita['imagem'] ?? '/placeholder.svg?height=180&width=280&text=' . urlencode($receita['nome'])
+            'tempo' => $receita['tempo'] ?? '30 min',
+            'dificuldade' => $receita['dificuldade'] ?? 'Intermediário',
+            'rating' => (float)($receita['rating'] ?? 4.5),
+            'image' => ($has_imagem && isset($receita['imagem']))
+                ? $receita['imagem']
+                : '/placeholder.svg?height=180&width=280&text=' . urlencode($receita['nome'])
         ];
     }, $receitas);
 
     echo json_encode([
         'success' => true,
         'receitas' => $receitas_formatadas,
-        'total' => count($receitas_formatadas)
-    ]);
+        'total' => count($receitas_formatadas),
+        'debug' => [
+            'has_imagem_field' => $has_imagem,
+            'total_db' => count($receitas)
+        ]
+    ], JSON_UNESCAPED_UNICODE);
 
 } catch (PDOException $e) {
     echo json_encode([
         'success' => false,
         'message' => 'Erro ao buscar receitas: ' . $e->getMessage(),
-        'receitas' => []
-    ]);
+        'receitas' => [],
+        'debug' => [
+            'error' => $e->getMessage(),
+            'code' => $e->getCode()
+        ]
+    ], JSON_UNESCAPED_UNICODE);
 }
