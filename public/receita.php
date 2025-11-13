@@ -282,6 +282,15 @@ if (empty($receita_id) || !is_numeric($receita_id)) {
         }
     }
 
+    function toggleMenu() {
+        const nav = document.getElementById('nav');
+        nav.classList.toggle('active');
+    }
+
+    function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
     function search() {
         const query = document.querySelector('.search-input').value.trim();
         if (query) {
