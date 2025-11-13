@@ -62,67 +62,13 @@ const culinarias = [
   },
 ]
 
-// Receitas em destaque
-const receitasDestaque = [
-  {
-    id: 1,
-    nome: "Feijoada Completa",
-    culinaria: "Brasileira",
-    tempo: "3h",
-    dificuldade: "Intermediário",
-    rating: 4.9,
-    image: "/placeholder.svg?height=180&width=280&text=Feijoada",
-  },
-  {
-    id: 2,
-    nome: "Lasanha Bolonhesa",
-    culinaria: "Italiana",
-    tempo: "2h",
-    dificuldade: "Intermediário",
-    rating: 4.8,
-    image: "/placeholder.svg?height=180&width=280&text=Lasanha",
-  },
-  {
-    id: 3,
-    nome: "Sushi Variado",
-    culinaria: "Japonesa",
-    tempo: "1h 30min",
-    dificuldade: "Avançado",
-    rating: 4.9,
-    image: "/placeholder.svg?height=180&width=280&text=Sushi",
-  },
-  {
-    id: 4,
-    nome: "Coq au Vin",
-    culinaria: "Francesa",
-    tempo: "2h 30min",
-    dificuldade: "Avançado",
-    rating: 4.7,
-    image: "/placeholder.svg?height=180&width=280&text=Coq+au+Vin",
-  },
-  {
-    id: 5,
-    nome: "Tacos al Pastor",
-    culinaria: "Mexicana",
-    tempo: "1h",
-    dificuldade: "Básico",
-    rating: 4.8,
-    image: "/placeholder.svg?height=180&width=280&text=Tacos",
-  },
-  {
-    id: 6,
-    nome: "Pad Thai",
-    culinaria: "Tailandesa",
-    tempo: "45min",
-    dificuldade: "Intermediário",
-    rating: 4.7,
-    image: "/placeholder.svg?height=180&width=280&text=Pad+Thai",
-  },
-]
+// Receitas em destaque (serão carregadas do banco de dados)
+let receitasDestaque = []
 
 // Inicialização
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   renderCulinarias()
+  await loadReceitasDestaque() // Carrega receitas do banco de dados
   renderDestaques()
   setupEventListeners()
   handleScroll()
@@ -157,6 +103,63 @@ function renderCulinarias() {
     `,
     )
     .join("")
+}
+
+// Carrega receitas em destaque do banco de dados
+async function loadReceitasDestaque() {
+  try {
+    const response = await fetch("../api/get-receitas-destaque.php")
+    const data = await response.json()
+
+    if (data.success && data.receitas && data.receitas.length > 0) {
+      receitasDestaque = data.receitas
+    } else {
+      // Se não houver receitas no banco, usa receitas de exemplo
+      receitasDestaque = [
+        {
+          id: 1,
+          nome: "Feijoada Completa",
+          culinaria: "Brasileira",
+          tempo: "3h",
+          dificuldade: "Intermediário",
+          rating: 4.9,
+          image: "/placeholder.svg?height=180&width=280&text=Feijoada",
+        },
+        {
+          id: 2,
+          nome: "Lasanha Bolonhesa",
+          culinaria: "Italiana",
+          tempo: "2h",
+          dificuldade: "Intermediário",
+          rating: 4.8,
+          image: "/placeholder.svg?height=180&width=280&text=Lasanha",
+        },
+        {
+          id: 3,
+          nome: "Sushi Variado",
+          culinaria: "Japonesa",
+          tempo: "1h 30min",
+          dificuldade: "Avançado",
+          rating: 4.9,
+          image: "/placeholder.svg?height=180&width=280&text=Sushi",
+        },
+      ]
+    }
+  } catch (error) {
+    console.error("Erro ao carregar receitas em destaque:", error)
+    // Em caso de erro, usa receitas de exemplo
+    receitasDestaque = [
+      {
+        id: 1,
+        nome: "Feijoada Completa",
+        culinaria: "Brasileira",
+        tempo: "3h",
+        dificuldade: "Intermediário",
+        rating: 4.9,
+        image: "/placeholder.svg?height=180&width=280&text=Feijoada",
+      },
+    ]
+  }
 }
 
 // Renderizar destaques
