@@ -85,8 +85,7 @@ function getUserName() {
             <!-- Ações (1 única barra de busca) -->
             <div class="header-actions">
               <span class="user-greeting">Olá, <?= getUserName() ?>!</span>
-                <!-- CAMINHO CORRETO -->
-             <a href="../includes/auth/logout.php" class="btn-logout">
+             <a href="../auth/logout.php" class="btn-logout">
                 <i class="fas fa-sign-out-alt"></i> Sair
             </a>        
                 <button class="search-btn" onclick="toggleSearch()" aria-label="Buscar">
