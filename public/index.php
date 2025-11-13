@@ -79,6 +79,9 @@ function getUserName() {
                 <a href="#home" class="nav-link active">Início</a>
                 <a href="#culinarias" class="nav-link">Culinárias</a>
                 <a href="#destaque" class="nav-link">Destaques</a>
+                <a href="adicionar-receita.php" class="nav-link">
+                    <i class="fas fa-plus-circle"></i> Adicionar Receita
+                </a>
                 <a href="#contato" class="nav-link">Contato</a>
             </nav>
 
