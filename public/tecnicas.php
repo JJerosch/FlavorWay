@@ -62,6 +62,10 @@ function getUserName() {
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            cursor: pointer;
         }
 
         .tecnica-card:hover {
@@ -284,7 +288,7 @@ function renderizarTecnicas(tecnicas) {
         const dificuldadeClass = tec.dificuldade.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
         return `
-            <div class="tecnica-card">
+            <a href="tecnica.php?id=${tec.id}" class="tecnica-card">
                 <div class="tecnica-titulo">
                     <i class="fas fa-fire-alt"></i>
                     ${tec.nome}
@@ -295,7 +299,7 @@ function renderizarTecnicas(tecnicas) {
                         ${tec.dificuldade}
                     </span>
                 </div>
-            </div>
+            </a>
         `;
     }).join('');
 }
