@@ -335,9 +335,10 @@ function scrollToSection(id) {
 
 function search() {
     const query = document.querySelector('.search-input').value.trim();
-    if (query) {
-        alert('Buscando por: ' + query);
-        // Aqui você conecta com PHP/AJAX depois
+    if (query && query.length >= 2) {
+        window.location.href = `buscar.php?q=${encodeURIComponent(query)}`;
+    } else if (query.length < 2) {
+        alert('Digite pelo menos 2 caracteres para buscar');
     }
 }
 
