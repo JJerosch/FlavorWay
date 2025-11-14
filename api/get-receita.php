@@ -16,12 +16,30 @@ try {
         throw new Exception('ID da receita inválido');
     }
 
+    // Verifica se campo imagem existe
+    $stmt = $pdo->query("SHOW COLUMNS FROM receitas LIKE 'imagem'");
+    $has_imagem = $stmt->rowCount() > 0;
+
+    $stmt = $pdo->query("SHOW COLUMNS FROM receitas LIKE 'ingredientes'");
+    $has_ingredientes_text = $stmt->rowCount() > 0;
+
+    $stmt = $pdo->query("SHOW COLUMNS FROM receitas LIKE 'modo_preparo'");
+    $has_modo_preparo = $stmt->rowCount() > 0;
+
+    // Constrói query dinamicamente
+    $imagem_field = $has_imagem ? 'r.imagem,' : '';
+    $ingredientes_field = $has_ingredientes_text ? 'r.ingredientes as ingredientes_text,' : '';
+    $modo_preparo_field = $has_modo_preparo ? 'r.modo_preparo,' : '';
+
     // Busca dados da receita
     $stmt = $pdo->prepare("
         SELECT
             r.id,
             r.nome,
             r.descricao,
+            $imagem_field
+            $ingredientes_field
+            $modo_preparo_field
             r.tempo_preparo,
             r.pessoas,
             r.rating,
@@ -50,7 +68,7 @@ try {
         throw new Exception('Receita não encontrada');
     }
 
-    // Busca ingredientes
+    // Busca ingredientes da tabela ingredientes
     $stmt = $pdo->prepare("
         SELECT nome, categoria
         FROM ingredientes
@@ -58,7 +76,26 @@ try {
         ORDER BY categoria, nome
     ");
     $stmt->execute([$receita_id]);
-    $receita['ingredientes'] = $stmt->fetchAll();
+    $ingredientes_tabela = $stmt->fetchAll();
+
+    // Se não houver ingredientes na tabela, usa o campo TEXT
+    if (empty($ingredientes_tabela) && isset($receita['ingredientes_text']) && !empty($receita['ingredientes_text'])) {
+        // Converte texto em array de ingredientes
+        $linhas = explode("\n", $receita['ingredientes_text']);
+        $ingredientes_array = [];
+        foreach ($linhas as $linha) {
+            $linha = trim($linha);
+            if (!empty($linha)) {
+                $ingredientes_array[] = [
+                    'nome' => $linha,
+                    'categoria' => 'Ingredientes'
+                ];
+            }
+        }
+        $receita['ingredientes'] = $ingredientes_array;
+    } else {
+        $receita['ingredientes'] = $ingredientes_tabela;
+    }
 
     // Busca tags
     $stmt = $pdo->prepare("

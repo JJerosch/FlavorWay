@@ -176,7 +176,7 @@ function renderDestaques() {
   container.innerHTML = receitasDestaque
     .map(
       (receita) => `
-        <div class="destaque-card">
+        <a href="receita.php?id=${receita.id}" class="destaque-card" style="text-decoration: none; color: inherit;">
             <div class="destaque-image" style="background-image: url('${receita.image}')">
                 <div class="destaque-badge">${receita.culinaria}</div>
             </div>
@@ -198,7 +198,7 @@ function renderDestaques() {
                     </span>
                 </div>
             </div>
-        </div>
+        </a>
     `,
     )
     .join("")
