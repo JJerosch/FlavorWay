@@ -58,6 +58,188 @@ function getUserName() {
             .menu-toggle { display: block; }
             .header-actions .search-btn { display: none; }
         }
+
+        /* === ESTILOS PARA SEÇÕES DE PREVIEW === */
+        .preview-section { padding: 4rem 0; }
+        .preview-action { text-align: center; margin-top: 2rem; }
+        .loading-spinner { text-align: center; padding: 2rem; color: #64748b; }
+
+        /* Preview de Receitas - Cards Horizontais */
+        .preview-scroll-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+            padding-bottom: 1rem;
+            scrollbar-width: thin;
+            scrollbar-color: #f59e0b #f1f5f9;
+        }
+        .preview-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        .preview-scroll-container::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
+        }
+        .preview-scroll-container::-webkit-scrollbar-thumb {
+            background: #f59e0b;
+            border-radius: 10px;
+        }
+        .preview-cards-horizontal {
+            display: flex;
+            gap: 1.5rem;
+            min-width: min-content;
+        }
+        .preview-recipe-card {
+            flex: 0 0 320px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+        }
+        .preview-recipe-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .preview-recipe-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+        }
+        .preview-recipe-content {
+            padding: 1.25rem;
+        }
+        .preview-recipe-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .preview-recipe-region {
+            font-size: 0.875rem;
+            color: #f59e0b;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+        .preview-recipe-meta {
+            display: flex;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: #64748b;
+            flex-wrap: wrap;
+        }
+        .preview-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* Preview de Técnicas - Grid Compacto */
+        .preview-grid-tecnicas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .preview-tecnica-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .preview-tecnica-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .preview-tecnica-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .preview-tecnica-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        .preview-tecnica-desc {
+            font-size: 0.875rem;
+            color: #64748b;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Preview de Ingredientes - Tags/Badges */
+        .preview-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        .preview-ingredient-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            background: white;
+            border: 2px solid #f59e0b;
+            border-radius: 25px;
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .preview-ingredient-tag:hover {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+        .preview-ingredient-count {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+        .preview-ingredient-tag:hover .preview-ingredient-count {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .preview-section { padding: 2rem 0; }
+            .preview-recipe-card { flex: 0 0 280px; }
+            .preview-grid-tecnicas {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -160,6 +342,73 @@ function getUserName() {
     </div>
     <div class="scroll-indicator" onclick="scrollToSection('culinarias')">
         <i class="fas fa-chevron-down"></i>
+    </div>
+</section>
+
+<!-- ========== NOVAS SEÇÕES DE PREVIEW ========== -->
+
+<!-- Preview: Receitas em Destaque -->
+<section class="preview-section receitas-preview">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">Featured</div>
+            <h2><i class="fas fa-book-open"></i> Receitas em <span class="highlight">Destaque</span></h2>
+            <p>Descubra as receitas mais populares e amadas pela nossa comunidade</p>
+        </div>
+        <div class="preview-scroll-container">
+            <div class="preview-cards-horizontal" id="receitasPreview">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando...
+                </div>
+            </div>
+        </div>
+        <div class="preview-action">
+            <a href="receitas.php" class="btn btn-primary">
+                <i class="fas fa-arrow-right"></i> Ver Todas as Receitas
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Preview: Técnicas Culinárias -->
+<section class="preview-section tecnicas-preview" style="background: #f8fafc;">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">Skills</div>
+            <h2><i class="fas fa-fire"></i> Técnicas <span class="highlight">Culinárias</span></h2>
+            <p>Aprimore suas habilidades com técnicas essenciais da cozinha profissional</p>
+        </div>
+        <div class="preview-grid-tecnicas" id="tecnicasPreview">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Carregando...
+            </div>
+        </div>
+        <div class="preview-action">
+            <a href="tecnicas.php" class="btn btn-outline">
+                <i class="fas fa-arrow-right"></i> Ver Todas as Técnicas
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Preview: Ingredientes Populares -->
+<section class="preview-section ingredientes-preview">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-tag">Ingredients</div>
+            <h2><i class="fas fa-carrot"></i> Ingredientes <span class="highlight">Populares</span></h2>
+            <p>Explore os ingredientes mais utilizados nas receitas do FlavorWay</p>
+        </div>
+        <div class="preview-tags-container" id="ingredientesPreview">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i> Carregando...
+            </div>
+        </div>
+        <div class="preview-action">
+            <a href="ingredientes.php" class="btn btn-primary">
+                <i class="fas fa-arrow-right"></i> Ver Todos os Ingredientes
+            </a>
+        </div>
     </div>
 </section>
 
@@ -399,6 +648,138 @@ function search() {
 function submitNewsletter(e) {
     e.preventDefault();
     alert('Inscrito com sucesso! (simulação)');
+}
+
+// ========== CARREGA SEÇÕES DE PREVIEW ==========
+document.addEventListener('DOMContentLoaded', () => {
+    carregarReceitasPreview();
+    carregarTecnicasPreview();
+    carregarIngredientesPreview();
+});
+
+// Carrega preview de receitas
+async function carregarReceitasPreview() {
+    try {
+        const response = await fetch('../api/get-receitas-destaque.php');
+        const data = await response.json();
+
+        if (data.success && data.receitas) {
+            const receitas = data.receitas.slice(0, 8); // Limita a 8 receitas
+            const container = document.getElementById('receitasPreview');
+
+            if (receitas.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:#64748b;">Nenhuma receita disponível</p>';
+                return;
+            }
+
+            container.innerHTML = receitas.map(receita => `
+                <a href="receita.php?id=${receita.id}" class="preview-recipe-card">
+                    <img src="${receita.image}" class="preview-recipe-image" alt="${receita.nome}">
+                    <div class="preview-recipe-content">
+                        <div class="preview-recipe-title">${receita.nome}</div>
+                        <div class="preview-recipe-region">
+                            <i class="fas fa-map-marker-alt"></i> ${receita.culinaria || 'Brasil'}
+                        </div>
+                        <div class="preview-recipe-meta">
+                            <span class="preview-meta-item">
+                                <i class="fas fa-clock"></i> ${receita.tempo || '30min'}
+                            </span>
+                            <span class="preview-meta-item">
+                                <i class="fas fa-star"></i> ${receita.rating || '4.5'}
+                            </span>
+                            ${receita.dificuldade ? `<span class="preview-meta-item"><i class="fas fa-signal"></i> ${receita.dificuldade}</span>` : ''}
+                        </div>
+                    </div>
+                </a>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Erro ao carregar receitas preview:', error);
+        document.getElementById('receitasPreview').innerHTML =
+            '<p style="text-align:center;color:#ef4444;">Erro ao carregar receitas</p>';
+    }
+}
+
+// Carrega preview de técnicas
+async function carregarTecnicasPreview() {
+    try {
+        const response = await fetch('../api/get-tecnicas.php');
+        const data = await response.json();
+
+        if (data.success && data.tecnicas) {
+            const tecnicas = data.tecnicas.slice(0, 6); // Limita a 6 técnicas
+            const container = document.getElementById('tecnicasPreview');
+
+            if (tecnicas.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:#64748b;">Nenhuma técnica disponível</p>';
+                return;
+            }
+
+            // Ícones para técnicas
+            const icones = {
+                'Fritura': 'fa-fire',
+                'Assar': 'fa-temperature-high',
+                'Cozinhar': 'fa-pot',
+                'Grelhar': 'fa-utensils',
+                'Refogar': 'fa-pepper-hot',
+                'Corte': 'fa-cut',
+                'default': 'fa-utensils'
+            };
+
+            container.innerHTML = tecnicas.map(tecnica => {
+                const icone = icones[tecnica.nome] || icones['default'];
+                const descricao = tecnica.descricao || 'Técnica culinária essencial para diversos pratos';
+
+                return `
+                    <a href="tecnica.php?id=${tecnica.id}" class="preview-tecnica-card">
+                        <div class="preview-tecnica-icon">
+                            <i class="fas ${icone}"></i>
+                        </div>
+                        <div class="preview-tecnica-title">${tecnica.nome}</div>
+                        <div class="preview-tecnica-desc">${descricao}</div>
+                    </a>
+                `;
+            }).join('');
+        }
+    } catch (error) {
+        console.error('Erro ao carregar técnicas preview:', error);
+        document.getElementById('tecnicasPreview').innerHTML =
+            '<p style="text-align:center;color:#ef4444;">Erro ao carregar técnicas</p>';
+    }
+}
+
+// Carrega preview de ingredientes
+async function carregarIngredientesPreview() {
+    try {
+        const response = await fetch('../api/get-ingredientes.php');
+        const data = await response.json();
+
+        if (data.success && data.ingredientes) {
+            // Ordena por quantidade de uso e pega os 12 mais populares
+            const ingredientes = data.ingredientes
+                .sort((a, b) => (b.count || 0) - (a.count || 0))
+                .slice(0, 12);
+
+            const container = document.getElementById('ingredientesPreview');
+
+            if (ingredientes.length === 0) {
+                container.innerHTML = '<p style="text-align:center;color:#64748b;">Nenhum ingrediente disponível</p>';
+                return;
+            }
+
+            container.innerHTML = ingredientes.map(ingrediente => `
+                <a href="ingrediente.php?nome=${encodeURIComponent(ingrediente.nome)}" class="preview-ingredient-tag">
+                    <i class="fas fa-carrot"></i>
+                    <span>${ingrediente.nome}</span>
+                    ${ingrediente.count ? `<span class="preview-ingredient-count">${ingrediente.count}</span>` : ''}
+                </a>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Erro ao carregar ingredientes preview:', error);
+        document.getElementById('ingredientesPreview').innerHTML =
+            '<p style="text-align:center;color:#ef4444;">Erro ao carregar ingredientes</p>';
+    }
 }
 </script>
 

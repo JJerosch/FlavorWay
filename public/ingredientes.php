@@ -80,12 +80,16 @@ function getUserName() {
             border: 2px solid #e2e8f0;
             transition: all 0.3s;
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
         .ingrediente-card:hover {
             border-color: #f59e0b;
             background: white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
         }
 
         .ingrediente-nome {
@@ -278,12 +282,12 @@ function renderizarIngredientes() {
                 </h2>
                 <div class="ingredientes-grid">
                     ${ingredientes.map(ing => `
-                        <div class="ingrediente-card">
+                        <a href="ingrediente.php?nome=${encodeURIComponent(ing.nome)}" class="ingrediente-card">
                             <div class="ingrediente-nome">${ing.nome}</div>
                             <div class="ingrediente-info">
-                                <span><i class="fas fa-utensils"></i> ${ing.total_receitas || 0} receitas</span>
+                                <span><i class="fas fa-utensils"></i> ${ing.count || ing.total_receitas || 0} receitas</span>
                             </div>
-                        </div>
+                        </a>
                     `).join('')}
                 </div>
             </div>
