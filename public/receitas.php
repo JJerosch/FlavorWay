@@ -41,6 +41,42 @@ $ordenar = $_GET['ordenar'] ?? 'recentes';
     <style>
         body { background: #f5f7fa; }
 
+        /* === BARRA DE PESQUISA === */
+        .search-container {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .search-container.active { display: block; }
+        .search-inner { display: flex; gap: 0.5rem; max-width: 600px; margin: 0 auto; }
+        .search-input-global { flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        .search-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b; }
+        .search-close:hover { color: #1e293b; }
+        .search-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: opacity 0.3s;
+        }
+        .search-btn:hover { opacity: 0.8; }
+        .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.25rem; cursor: pointer; padding: 0.5rem; }
+
+        @media (max-width: 768px) {
+            .nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: white; padding: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+            .nav.active { display: flex; }
+            .menu-toggle { display: block; }
+            .header-actions .search-btn { display: none; }
+        }
+
         .receitas-container {
             max-width: 1400px;
             margin: 100px auto 50px;
@@ -225,6 +261,22 @@ $ordenar = $_GET['ordenar'] ?? 'recentes';
                 <a href="../auth/logout.php" class="btn-logout">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
+                <button class="search-btn" onclick="toggleSearch()" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+        <!-- Barra de Pesquisa -->
+        <div class="search-container" id="searchContainer">
+            <div class="search-inner">
+                <input type="text" placeholder="Buscar receitas, ingredientes, técnicas..." class="search-input-global" onkeypress="if(event.key==='Enter') searchGlobal()">
+                <button class="search-close" onclick="toggleSearch()" aria-label="Fechar">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -401,6 +453,29 @@ function aplicarFiltros() {
     }
 
     renderizarReceitas(receitasFiltradas);
+}
+
+// === FUNÇÕES DE BUSCA GLOBAL ===
+function toggleSearch() {
+    const container = document.getElementById('searchContainer');
+    container.classList.toggle('active');
+    if (container.classList.contains('active')) {
+        document.querySelector('.search-input-global').focus();
+    }
+}
+
+function toggleMenu() {
+    const nav = document.getElementById('nav');
+    nav.classList.toggle('active');
+}
+
+function searchGlobal() {
+    const query = document.querySelector('.search-input-global').value.trim();
+    if (query && query.length >= 2) {
+        window.location.href = `buscar.php?q=${encodeURIComponent(query)}`;
+    } else if (query.length < 2) {
+        alert('Digite pelo menos 2 caracteres para buscar');
+    }
 }
 </script>
 

@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// === CARREGA CONEXÃO ===
+// === CARREGA CONEXï¿½O ===
 require_once '../config/database.php';
 
 // === PUXA NOME DO BANCO ===
@@ -15,17 +15,17 @@ try {
     $stmt = $pdo->prepare("SELECT nome FROM usuarios WHERE id = ?");
     $stmt->execute([$_SESSION['user_id']]);
     $user = $stmt->fetch();
-    $_SESSION['username'] = $user['nome'] ?? 'Usuário';
+    $_SESSION['username'] = $user['nome'] ?? 'Usuï¿½rio';
 } catch (Exception $e) {
-    $_SESSION['username'] = 'Usuário';
+    $_SESSION['username'] = 'Usuï¿½rio';
 }
 
-// === FUNÇÃO SEGURA ===
+// === FUNï¿½ï¿½O SEGURA ===
 function getUserName() {
-    return htmlspecialchars($_SESSION['username'] ?? 'Usuário', ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars($_SESSION['username'] ?? 'Usuï¿½rio', ENT_QUOTES, 'UTF-8');
 }
 
-// === OBTÉM NOME DO INGREDIENTE ===
+// === OBTï¿½M NOME DO INGREDIENTE ===
 $ingrediente_nome = $_GET['nome'] ?? '';
 if (empty($ingrediente_nome)) {
     header('Location: ingredientes.php');
@@ -43,6 +43,42 @@ $ingrediente_nome_safe = htmlspecialchars($ingrediente_nome, ENT_QUOTES, 'UTF-8'
     <link rel="stylesheet" href="../assets/css/public.css/homestyles.css">
     <style>
         body { background: #f5f7fa; }
+
+        /* === BARRA DE PESQUISA === */
+        .search-container {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .search-container.active { display: block; }
+        .search-inner { display: flex; gap: 0.5rem; max-width: 600px; margin: 0 auto; }
+        .search-input-global { flex: 1; padding: 0.75rem; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        .search-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b; }
+        .search-close:hover { color: #1e293b; }
+        .search-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: opacity 0.3s;
+        }
+        .search-btn:hover { opacity: 0.8; }
+        .menu-toggle { display: none; background: none; border: none; color: white; font-size: 1.25rem; cursor: pointer; padding: 0.5rem; }
+
+        @media (max-width: 768px) {
+            .nav { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: white; padding: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+            .nav.active { display: flex; }
+            .menu-toggle { display: block; }
+            .header-actions .search-btn { display: none; }
+        }
 
         .ingrediente-container {
             max-width: 1200px;
@@ -239,18 +275,34 @@ $ingrediente_nome_safe = htmlspecialchars($ingrediente_nome, ENT_QUOTES, 'UTF-8'
             </div>
 
             <nav class="nav" id="nav">
-                <a href="index.php" class="nav-link">Início</a>
+                <a href="index.php" class="nav-link">Inï¿½cio</a>
                 <a href="receitas.php" class="nav-link">Receitas</a>
                 <a href="ingredientes.php" class="nav-link active">Ingredientes</a>
-                <a href="tecnicas.php" class="nav-link">Técnicas</a>
+                <a href="tecnicas.php" class="nav-link">Tï¿½cnicas</a>
                 <a href="lista-compras.php" class="nav-link">Lista de Compras</a>
             </nav>
 
             <div class="header-actions">
-                <span class="user-greeting">Olá, <?= getUserName() ?>!</span>
+                <span class="user-greeting">Olï¿½, <?= getUserName() ?>!</span>
                 <a href="../auth/logout.php" class="btn-logout">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </a>
+                <button class="search-btn" onclick="toggleSearch()" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+        <!-- Barra de Pesquisa -->
+        <div class="search-container" id="searchContainer">
+            <div class="search-inner">
+                <input type="text" placeholder="Buscar receitas, ingredientes, tÃ©cnicas..." class="search-input-global" onkeypress="if(event.key==='Enter') searchGlobal()">
+                <button class="search-close" onclick="toggleSearch()" aria-label="Fechar">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -263,7 +315,7 @@ $ingrediente_nome_safe = htmlspecialchars($ingrediente_nome, ENT_QUOTES, 'UTF-8'
 
     <div class="ingrediente-hero" id="ingrediente-hero">
         <div class="loading">
-            <i class="fas fa-spinner fa-spin"></i> Carregando informações...
+            <i class="fas fa-spinner fa-spin"></i> Carregando informaï¿½ï¿½es...
         </div>
     </div>
 
@@ -303,16 +355,16 @@ async function carregarIngredienteInfo() {
             } else {
                 renderizarIngredienteHero({
                     nome: INGREDIENTE_NOME,
-                    categoria: 'Não categorizado',
+                    categoria: 'Nï¿½o categorizado',
                     count: 0
                 });
             }
         }
     } catch (error) {
-        console.error('Erro ao carregar informações do ingrediente:', error);
+        console.error('Erro ao carregar informaï¿½ï¿½es do ingrediente:', error);
         renderizarIngredienteHero({
             nome: INGREDIENTE_NOME,
-            categoria: 'Não categorizado',
+            categoria: 'Nï¿½o categorizado',
             count: 0
         });
     }
@@ -347,14 +399,14 @@ function renderizarIngredienteHero(ingrediente) {
 
 async function carregarReceitasComIngrediente() {
     try {
-        // Busca todas as receitas que contém este ingrediente
+        // Busca todas as receitas que contï¿½m este ingrediente
         const response = await fetch(`../api/buscar.php?q=${encodeURIComponent(INGREDIENTE_NOME)}`);
         const data = await response.json();
 
         const container = document.getElementById('receitas-grid');
 
         if (data.success && data.receitas && data.receitas.length > 0) {
-            // Filtra receitas que realmente contém o ingrediente nos ingredientes
+            // Filtra receitas que realmente contï¿½m o ingrediente nos ingredientes
             const receitasFiltradas = data.receitas.filter(receita => {
                 if (!receita.ingredientes) return false;
                 const ingredientesArray = receita.ingredientes.toLowerCase().split(',');
@@ -414,6 +466,29 @@ async function carregarReceitasComIngrediente() {
                 <p>Erro ao carregar receitas</p>
             </div>
         `;
+    }
+}
+
+// === FUNÃ‡Ã•ES DE BUSCA GLOBAL ===
+function toggleSearch() {
+    const container = document.getElementById('searchContainer');
+    container.classList.toggle('active');
+    if (container.classList.contains('active')) {
+        document.querySelector('.search-input-global').focus();
+    }
+}
+
+function toggleMenu() {
+    const nav = document.getElementById('nav');
+    nav.classList.toggle('active');
+}
+
+function searchGlobal() {
+    const query = document.querySelector('.search-input-global').value.trim();
+    if (query && query.length >= 2) {
+        window.location.href = `buscar.php?q=${encodeURIComponent(query)}`;
+    } else if (query.length < 2) {
+        alert('Digite pelo menos 2 caracteres para buscar');
     }
 }
 </script>
