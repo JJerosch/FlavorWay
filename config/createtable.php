@@ -277,12 +277,16 @@ try {
                 `id` INT AUTO_INCREMENT PRIMARY KEY,
                 `nome` VARCHAR(255) NOT NULL,
                 `descricao` TEXT NOT NULL,
+                `imagem` VARCHAR(500) DEFAULT NULL,
+                `ingredientes` TEXT DEFAULT NULL,
+                `modo_preparo` TEXT DEFAULT NULL,
                 `tempo_preparo` VARCHAR(50) NOT NULL,
                 `pessoas` VARCHAR(60) NOT NULL,
                 `rating` DECIMAL(2,1) DEFAULT 4.5,
                 `dificuldade` ENUM('Básico', 'Intermediário', 'Avançado') NOT NULL,
                 `regiao` ENUM('Nordeste', 'Sudeste', 'Sul', 'Centro-Oeste', 'Norte'),
                 `regiao_id` INT DEFAULT NULL,
+                `usuario_id` INT DEFAULT NULL,
                 `destaque` TINYINT(1) DEFAULT 0,
                 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 `badge` VARCHAR(50) DEFAULT NULL,
@@ -295,7 +299,9 @@ try {
                 INDEX idx_regiao_id (`regiao_id`),
                 INDEX idx_dificuldade (`dificuldade`),
                 INDEX idx_destaque (`destaque`),
-                INDEX idx_rating (`rating`)
+                INDEX idx_rating (`rating`),
+                INDEX idx_usuario_id (`usuario_id`),
+                INDEX idx_destaque_created (`destaque`, `created_at`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         ",
         
@@ -440,6 +446,7 @@ try {
         "ALTER TABLE `administradores` ADD CONSTRAINT `fk_administradores_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`) ON DELETE CASCADE",
         "ALTER TABLE `estudantes` ADD CONSTRAINT `fk_estudantes_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`) ON DELETE CASCADE",
         "ALTER TABLE `receitas` ADD CONSTRAINT `fk_receitas_regiao` FOREIGN KEY (`regiao_id`) REFERENCES `regioes`(`id`) ON DELETE SET NULL",
+        "ALTER TABLE `receitas` ADD CONSTRAINT `fk_receitas_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios`(`id`) ON DELETE SET NULL",
         "ALTER TABLE `ingredientes` ADD CONSTRAINT `fk_ingredientes_receita` FOREIGN KEY (`receita_id`) REFERENCES `receitas`(`id`) ON DELETE CASCADE",
         "ALTER TABLE `receita_tags` ADD CONSTRAINT `fk_receita_tags_receita` FOREIGN KEY (`receita_id`) REFERENCES `receitas`(`id`) ON DELETE CASCADE",
         "ALTER TABLE `receita_tags` ADD CONSTRAINT `fk_receita_tags_tag` FOREIGN KEY (`tag_id`) REFERENCES `tags`(`id`) ON DELETE CASCADE",
