@@ -77,12 +77,21 @@ function getUserName() {
             <!-- Navegação -->
             <nav class="nav" id="nav">
                 <a href="#home" class="nav-link active">Início</a>
-                <a href="#culinarias" class="nav-link">Culinárias</a>
-                <a href="#destaque" class="nav-link">Destaques</a>
-                <a href="adicionar-receita.php" class="nav-link">
-                    <i class="fas fa-plus-circle"></i> Adicionar Receita
+                <a href="receitas.php" class="nav-link">
+                    <i class="fas fa-book-open"></i> Receitas
                 </a>
-                <a href="#contato" class="nav-link">Contato</a>
+                <a href="ingredientes.php" class="nav-link">
+                    <i class="fas fa-carrot"></i> Ingredientes
+                </a>
+                <a href="tecnicas.php" class="nav-link">
+                    <i class="fas fa-fire"></i> Técnicas
+                </a>
+                <a href="lista-compras.php" class="nav-link">
+                    <i class="fas fa-shopping-cart"></i> Lista
+                </a>
+                <a href="adicionar-receita.php" class="nav-link">
+                    <i class="fas fa-plus-circle"></i> Adicionar
+                </a>
             </nav>
 
             <!-- Ações (1 única barra de busca) -->
@@ -178,6 +187,51 @@ function getUserName() {
         </div>
         <div class="destaques-grid" id="destaquesGrid">
             Carregado via JavaScript
+        </div>
+    </div>
+</section>
+
+<!-- Seção Explore -->
+<section class="explore-section" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); padding: 4rem 0;">
+    <div class="container">
+        <div class="section-header" style="color: white;">
+            <div class="section-tag" style="background: rgba(255,255,255,0.2); color: white;">Explore</div>
+            <h2 style="color: white;">Descubra o <span style="color: #fef3c7;">FlavorWay</span></h2>
+            <p style="color: rgba(255,255,255,0.9);">Acesse nosso catálogo completo de conteúdo culinário</p>
+        </div>
+        <div class="recursos-grid" style="margin-top: 2rem;">
+            <a href="receitas.php" class="recurso-card" style="text-decoration: none; cursor: pointer; transition: transform 0.3s;">
+                <div class="recurso-icon" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);"><i class="fas fa-book-open"></i></div>
+                <h3>Todas as Receitas</h3>
+                <p>Explore nosso catálogo completo de receitas brasileiras e internacionais</p>
+                <div style="margin-top: 1rem; color: #f59e0b; font-weight: 600;">
+                    Ver Receitas <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            <a href="ingredientes.php" class="recurso-card" style="text-decoration: none; cursor: pointer; transition: transform 0.3s;">
+                <div class="recurso-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);"><i class="fas fa-carrot"></i></div>
+                <h3>Ingredientes</h3>
+                <p>Conheça todos os ingredientes utilizados nas receitas e suas categorias</p>
+                <div style="margin-top: 1rem; color: #f59e0b; font-weight: 600;">
+                    Ver Ingredientes <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            <a href="tecnicas.php" class="recurso-card" style="text-decoration: none; cursor: pointer; transition: transform 0.3s;">
+                <div class="recurso-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);"><i class="fas fa-fire"></i></div>
+                <h3>Técnicas Culinárias</h3>
+                <p>Aprenda técnicas essenciais para aprimorar suas habilidades na cozinha</p>
+                <div style="margin-top: 1rem; color: #f59e0b; font-weight: 600;">
+                    Ver Técnicas <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
+            <a href="lista-compras.php" class="recurso-card" style="text-decoration: none; cursor: pointer; transition: transform 0.3s;">
+                <div class="recurso-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);"><i class="fas fa-shopping-cart"></i></div>
+                <h3>Lista de Compras</h3>
+                <p>Gerencie seus ingredientes e organize suas compras de forma prática</p>
+                <div style="margin-top: 1rem; color: #f59e0b; font-weight: 600;">
+                    Ver Lista <i class="fas fa-arrow-right"></i>
+                </div>
+            </a>
         </div>
     </div>
 </section>
