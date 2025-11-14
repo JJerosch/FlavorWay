@@ -9,25 +9,41 @@ require_once 'database.php';
 try {
     echo "Iniciando atualização da tabela receitas...\n\n";
 
-    // Adicionar campo imagem
-    $pdo->exec("ALTER TABLE `receitas`
-                ADD COLUMN IF NOT EXISTS `imagem` VARCHAR(500) DEFAULT NULL AFTER `descricao`");
-    echo "✓ Campo 'imagem' adicionado\n";
+    // Verificar e adicionar campo imagem
+    $stmt = $pdo->query("SHOW COLUMNS FROM receitas LIKE 'imagem'");
+    if ($stmt->rowCount() == 0) {
+        $pdo->exec("ALTER TABLE `receitas` ADD COLUMN `imagem` VARCHAR(500) DEFAULT NULL AFTER `descricao`");
+        echo "✓ Campo 'imagem' adicionado\n";
+    } else {
+        echo "⚠ Campo 'imagem' já existe\n";
+    }
 
-    // Adicionar campo ingredientes
-    $pdo->exec("ALTER TABLE `receitas`
-                ADD COLUMN IF NOT EXISTS `ingredientes` TEXT DEFAULT NULL AFTER `imagem`");
-    echo "✓ Campo 'ingredientes' adicionado\n";
+    // Verificar e adicionar campo ingredientes
+    $stmt = $pdo->query("SHOW COLUMNS FROM receitas LIKE 'ingredientes'");
+    if ($stmt->rowCount() == 0) {
+        $pdo->exec("ALTER TABLE `receitas` ADD COLUMN `ingredientes` TEXT DEFAULT NULL AFTER `imagem`");
+        echo "✓ Campo 'ingredientes' adicionado\n";
+    } else {
+        echo "⚠ Campo 'ingredientes' já existe\n";
+    }
 
-    // Adicionar campo modo_preparo
-    $pdo->exec("ALTER TABLE `receitas`
-                ADD COLUMN IF NOT EXISTS `modo_preparo` TEXT DEFAULT NULL AFTER `ingredientes`");
-    echo "✓ Campo 'modo_preparo' adicionado\n";
+    // Verificar e adicionar campo modo_preparo
+    $stmt = $pdo->query("SHOW COLUMNS FROM receitas LIKE 'modo_preparo'");
+    if ($stmt->rowCount() == 0) {
+        $pdo->exec("ALTER TABLE `receitas` ADD COLUMN `modo_preparo` TEXT DEFAULT NULL AFTER `ingredientes`");
+        echo "✓ Campo 'modo_preparo' adicionado\n";
+    } else {
+        echo "⚠ Campo 'modo_preparo' já existe\n";
+    }
 
-    // Adicionar campo usuario_id
-    $pdo->exec("ALTER TABLE `receitas`
-                ADD COLUMN IF NOT EXISTS `usuario_id` INT(11) DEFAULT NULL AFTER `regiao_id`");
-    echo "✓ Campo 'usuario_id' adicionado\n";
+    // Verificar e adicionar campo usuario_id
+    $stmt = $pdo->query("SHOW COLUMNS FROM receitas LIKE 'usuario_id'");
+    if ($stmt->rowCount() == 0) {
+        $pdo->exec("ALTER TABLE `receitas` ADD COLUMN `usuario_id` INT(11) DEFAULT NULL AFTER `regiao_id`");
+        echo "✓ Campo 'usuario_id' adicionado\n";
+    } else {
+        echo "⚠ Campo 'usuario_id' já existe\n";
+    }
 
     // Adicionar foreign key para usuario_id
     try {
