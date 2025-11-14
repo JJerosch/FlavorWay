@@ -24,6 +24,7 @@ async function carregarReceita() {
             receitaData = data.receita;
             renderHeroReceita(receitaData);
             renderIngredientes(receitaData);
+            renderModoPreparo(receitaData);
             renderNutricao(receitaData);
             renderAvaliacoes(receitaData);
             renderEstatisticasAvaliacoes(receitaData);
@@ -87,12 +88,22 @@ function renderHeroReceita(receita) {
                     <span id="favorito-count">(${receita.total_favoritos})</span>
                 </button>
 
+                <button class="btn-lista-compras" onclick="adicionarListaCompras()" id="btn-lista-compras">
+                    <i class="fas fa-shopping-cart"></i>
+                    Adicionar à Lista
+                </button>
+
                 ${receita.regiao_slug ? `
                     <a href="regiao.php?regiao=${receita.regiao_slug}" class="btn-regiao">
                         <i class="fas fa-map-marker-alt"></i>
                         ${receita.regiao_nome || receita.regiao}
                     </a>
                 ` : ''}
+
+                <a href="lista-compras.php" class="btn-view-lista">
+                    <i class="fas fa-list"></i>
+                    Ver Lista
+                </a>
 
                 <button class="btn-share" onclick="compartilhar()">
                     <i class="fas fa-share-alt"></i>
@@ -134,6 +145,25 @@ function renderIngredientes(receita) {
     }
 
     container.innerHTML = html;
+}
+
+// Renderiza modo de preparo
+function renderModoPreparo(receita) {
+    const container = document.getElementById('preparo-steps');
+
+    if (!receita.modo_preparo || receita.modo_preparo.trim() === '') {
+        container.innerHTML = '<p class="placeholder-text">Modo de preparo em breve...</p>';
+        return;
+    }
+
+    // Converte o texto em passos (dividindo por linha)
+    const passos = receita.modo_preparo.split('\n').filter(p => p.trim() !== '');
+
+    container.innerHTML = `
+        <ol class="preparo-list">
+            ${passos.map(passo => `<li>${passo.trim()}</li>`).join('')}
+        </ol>
+    `;
 }
 
 // Renderiza informações nutricionais
@@ -526,5 +556,49 @@ function handleScroll() {
         header.classList.add('scrolled');
     } else {
         header.classList.remove('scrolled');
+    }
+}
+
+// Adicionar ingredientes à lista de compras
+async function adicionarListaCompras() {
+    if (!receitaData || !receitaData.ingredientes || receitaData.ingredientes.length === 0) {
+        mostrarNotificacao('Esta receita não possui ingredientes cadastrados', 'warning');
+        return;
+    }
+
+    try {
+        const btn = document.getElementById('btn-lista-compras');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adicionando...';
+
+        const response = await fetch('../api/adicionar-lista-compras.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                receita_id: RECEITA_ID,
+                ingredientes: receitaData.ingredientes
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            mostrarNotificacao(`${data.total} ingredientes adicionados à lista de compras!`, 'success');
+            setTimeout(() => {
+                window.location.href = 'lista-compras.php';
+            }, 1500);
+        } else {
+            mostrarNotificacao(data.error || 'Erro ao adicionar à lista', 'error');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Adicionar à Lista';
+        }
+    } catch (error) {
+        console.error('Erro ao adicionar à lista:', error);
+        mostrarNotificacao('Erro ao processar requisição', 'error');
+        const btn = document.getElementById('btn-lista-compras');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-shopping-cart"></i> Adicionar à Lista';
     }
 }
